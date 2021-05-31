@@ -1,2 +1,36 @@
-<!--miniprogram/pages/me/index.wxml-->
-<text>miniprogram/pages/me/index.wxml</text>
+<view class="container">
+
+<!-- 用户 openid -->
+<view class="weui-media-box weui-media-box_appmsg" hover-class="weui-cell_active">
+    <view class="weui-media-box__hd weui-media-box__hd_in-appmsg">
+        <open-data class="avatar-img" type="userAvatarUrl" lang="zh_CN"></open-data>
+
+    </view>
+    <view class="weui-media-box__bd weui-media-box__bd_in-appmsg">
+        <view class="weui-media-box__title"><open-data type="userNickName" lang="zh_CN"></open-data></view>
+        <view class="weui-media-box__desc">性别:<open-data type="userGender" lang="zh_CN"></open-data></view>
+
+        <view class="weui-media-box__desc">地区:<open-data class="country" type="userCountry" lang="zh_CN"></open-data>
+            <open-data class="province" type="userProvince" lang="zh_CN"></open-data>
+            <open-data class="city" type="userCity" lang="zh_CN"></open-data>
+        </view>
+    </view>
+</view>
+
+<view class="uploader">
+    <navigator url="../im/im" open-type="navigate" class="uploader-text">
+      <text>我的发布</text>
+    </navigator>
+</view>
+
+<view class="uploader">
+    <navigator url="../im/im" open-type="navigate" class="uploader-text">
+      <text>关于</text>
+    </navigator>
+</view>
+
+
+ <text class="request-text">{{openid}}</text>
+
+
+</view>

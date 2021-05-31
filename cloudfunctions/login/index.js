@@ -19,18 +19,30 @@ exports.main = async (event, context) => {
   console.log(event)
   console.log(context)
 
+
   // 可执行其他自定义逻辑
   // console.log 的内容可以在云开发云函数调用日志查看
+  const { ENV, OPENID, UNIONID, APPID } = cloud.getWXContext();
 
   // 获取 WX Context (微信调用上下文)，包括 OPENID、APPID、及 UNIONID（需满足 UNIONID 获取条件）等信息
-  const wxContext = cloud.getWXContext()
+  // const user = await db
+  //     .collection('users')
+  //     .where({
+  //       openid: OPENID,
+  //     })
+  //     .get();
+    // 如果有数据，则只是更新 `session_key`，如果没数据则添加该用户并插入 `sesison_key`
+    // if (user.data.length) {}
+    // else{
+    // }
 
   return {
     event,
-    openid: wxContext.OPENID,
-    appid: wxContext.APPID,
-    unionid: wxContext.UNIONID,
-    env: wxContext.ENV,
+    openid: OPENID,
+    appid: APPID,
+    unionid: UNIONID,
+    env: ENV,
   }
+
 }
 

@@ -1,47 +1,17 @@
-// miniprogram/pages/me/index.js
-const app = getApp()
+// miniprogram/test/test.js
 Page({
 
   /**
    * 页面的初始数据
    */
   data: {
-    openid: "",
-    isHide: true
+
   },
 
   /**
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
-    const db = wx.cloud.database();
-    wx.cloud.callFunction({
-    name: 'login',
-    data: {},
-    success: res => {
-      console.log('[云函数] [login] user openid: ', res.result.openid)
-      app.globalData.openid = res.result.openid
-      this.setData({
-        openid: app.globalData.openid
-      });
-
-      db.collection('users').add({
-        data: {
-          openid: this.openid
-        },
-        success: res => {
-          // 在返回结果中会包含新创建的记录的 _id
-          console.log('[数据库] [新增记录] 成功，记录 _id: ', res._id)
-        },
-        fail: err => {
-          console.error('[数据库] [新增记录] 失败：', err)
-        }
-      })
-
-   },
-  
-  })
-
 
   },
 
@@ -92,6 +62,5 @@ Page({
    */
   onShareAppMessage: function () {
 
-  },
-
+  }
 })

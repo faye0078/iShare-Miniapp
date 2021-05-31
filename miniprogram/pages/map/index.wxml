@@ -1,0 +1,13 @@
+<!--绑定输入事件-->
+<input style="border:1px solid black;" bindinput="getsuggest" value="{{backfill}}"></input>
+<!--关键词输入提示列表渲染-->
+<view wx:for="{{suggestion}}" wx:key="index">
+    <!--绑定回填事件-->
+    <view>
+    <!--根据需求渲染相应数据-->
+    <!--渲染地址title-->
+    <view style="text-align:center;" bindtap="backfill" id="{{index}}">{{item.title}}</view>
+    <!--渲染详细地址-->
+    <view style="font-size:12px;color:#666;text-align:center;">{{item.addr}}</view>
+    </view>
+</view>
