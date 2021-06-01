@@ -42,7 +42,7 @@ Page({
   
   })
 
-
+  app.globalData.openid = this.openid;
   },
 
   /**
