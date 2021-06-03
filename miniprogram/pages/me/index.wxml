@@ -1,6 +1,15 @@
-<view class="container">
 
+<view class="container">
+<view wx:if="{{iflogin}}"> 
+    <button
+  wx:if="{{canIUse}}"
+  open-type="getUserInfo"
+  bindgetuserinfo="bindGetUserInfo">
+  授权登录
+</button>
+    </view>
 <!-- 用户 openid -->
+<view wx:if="{{condition}}"> 
 <view class="weui-media-box weui-media-box_appmsg" hover-class="weui-cell_active">
     <view class="weui-media-box__hd weui-media-box__hd_in-appmsg">
         <open-data class="avatar-img" type="userAvatarUrl" lang="zh_CN"></open-data>
@@ -15,6 +24,7 @@
             <open-data class="city" type="userCity" lang="zh_CN"></open-data>
         </view>
     </view>
+</view>
 </view>
 
 <view class="uploader">

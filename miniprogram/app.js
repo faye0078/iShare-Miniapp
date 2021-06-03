@@ -2,7 +2,8 @@
 App({
   globalData: {
     openid: "",
-    postMessage: []
+    postMessage: [],
+    isupdate: -1
 },
 
   onLaunch: function () {
@@ -29,7 +30,30 @@ App({
         that.globalData.postMessage = postMessage;
         console.log(that.globalData.postMessage);
       }
-    })
+    });
+  //   const MAX_LIMIT = 8
+  //   const promise = db.collection('post').skip(i * MAX_LIMIT).limit(MAX_LIMIT).get()
+  //   exports.main = async (event, context) => {
+  //   // 先取出集合记录总数
+  //   const countResult = await db.collection('todos').count()
+
+  //   // 计算需分几次取
+  //   const batchTimes = Math.ceil(total / 100)
+  //   // 承载所有读操作的 promise 的数组
+  //   const tasks = []
+  //   for (let i = 0; i < batchTimes; i++) {
+  //     const promise = db.collection('todos').skip(i * MAX_LIMIT).limit(MAX_LIMIT).get()
+  //     tasks.push(promise)
+  //   }
+  //   // 等待所有
+  //   return (await Promise.all(tasks)).reduce((acc, cur) => {
+  //     return {
+  //       data: acc.data.concat(cur.data),
+  //       errMsg: acc.errMsg,
+  //     }
+  //   })
+  // }
+    
     
 
   // wx.cloud.callFunction({

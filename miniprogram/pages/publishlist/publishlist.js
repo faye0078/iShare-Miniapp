@@ -5,23 +5,11 @@
 //    * 页面的初始数据
 //    */
 //   data: {
-//     imageUrl:"",
 //     // 此页面 页面内容距最顶部的距离
 //     height: app.globalData.height * 2 + 20,
-//     currentIndex: 0,
-//     swiper_images: [],
-//     allCategoryMessage: [],
-//     floorstatus: "none",
-//     category_first: [],
-//     category_second: [],
-//     notice: [],
-//     lost_new: {},
-//     takeout: [],
-//     ad_bottom: ["../../images/other/ad_bottom.jpg"],
 //     user_message: [],
 //     activeIndex: 1,
 //     isLastPage: false, //是否最后一页
-//     isUpdate: -1,
 //     isLoading: false //页面是否渲染完毕
 //   },
 
@@ -35,63 +23,42 @@
 //      * 商家服务
 //      */
 //     this.setData({
-//       takeout: getApp().globalData.postMessage,
+//       user_message: getApp().globalData.postMessage,
 //     })
-
-//     /**
-//      * 轮播图
-//      */
-//     this.setData({
-//       swiper_images: getApp().globalData.swiperImages
-//     })
-//     /**
-//      * 分类信息
-//      */
-//     this.setData({
-//       allCategoryMessage: getApp().globalData.categoryMessage
-//     })
-//     var get_first = getApp().globalData.categoryMessage.slice(0, 10);
-//     var tem = [{}, {}, {}, {}, {}]
-//     var get_second = getApp().globalData.categoryMessage.slice(10, 13).concat(tem)
-//     this.setData({
-//       category_first: get_first,
-//       category_second: get_second,
-//       category_second: get_second
-//     })
-//     /**
-//      * 公告信息
-//      */
-//     this.setData({
-//       notice: getApp().globalData.noticeMessage
-//     })
-//     /**
-//      *第一页最新信息
-//      */
-//     this.setData({
-//       user_message: getApp().globalData.messageDetail
-//     })
-//     /**
-//      * 获取最新失物招领
-//      */
-//     this.setData({
-//       lost_new: getApp().globalData.lost_new
-//     })
-
 //   },
 
 //   /**
 //    * 生命周期函数--监听页面初次渲染完成
 //    */
 //   onReady: function () {
-
+//     let that = this
+//     setTimeout(function() {
+//       that.setData({
+//         isLoading: true
+//       })
+//     }, 1000)
 //   },
 
 //   /**
 //    * 生命周期函数--监听页面显示
 //    */
 //   onShow: function () {
+//     let that = this
+   
+//     /**
+//      * 判断是否更新
+//      */
+//     if (getApp().globalData.isUpdate == 1) {
+//       this.onLoad(),
+//         this.setData({
+//           activeIndex: 1,
+//           isLastPage: false, //是否最后一页
+//         })
+//       getApp().globalData.isUpdate = -1
+//     }
 
 //   },
+  
 
 //   /**
 //    * 生命周期函数--监听页面隐藏
@@ -118,8 +85,41 @@
 //    * 页面上拉触底事件的处理函数
 //    */
 //   onReachBottom: function () {
+//     // 最后一页了，取消下拉功能
+//         if (this.data.isLastPage) {
+//           return
+//         }
+//         this.loadMessage(++this.data.activeIndex)
+//       },
+//   loadMessage(index) {
+//     wx.showLoading({
+//       title: '加载中~',
+//     })
+//     var that = this;
+//     var app = getApp()
+//     wx.request({
+//       url: getApp().globalData.url + '/getMessage/getAllMessageDetail/' + index,
+//       method: "POST",
+//       success: (res) => {
+//         if (res.data == 200) {
+//           that.setData({
+//             isLastPage: true
+//           })
+//           return;
+//         }
+//         that.setData({
+//           user_message: that.data.user_message.concat(res.data)
+//         })
+
+
+//       },
+//       complete: function(res) {
+//         wx.hideLoading();
+//       },
+//     })
 
 //   },
+
 
 //   /**
 //    * 用户点击右上角分享

@@ -7,41 +7,66 @@ Page({
    */
   data: {
     openid: "",
-    isHide: true
+    userInfo: "",
+    isHide: true,
+    canIUse: wx.canIUse('button.open-type.getUserInfo'),
+    condition: false,
+    iflogin: true
   },
 
   /**
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
-    const db = wx.cloud.database();
     wx.cloud.callFunction({
-    name: 'login',
-    data: {},
-    success: res => {
-      console.log('[云函数] [login] user openid: ', res.result.openid)
-      app.globalData.openid = res.result.openid
-      this.setData({
-        openid: app.globalData.openid
-      });
+      name: 'login',
+      data: {},
+      success: res => {
+        console.log('[云函数] [login] user openid: ', res.result.openid)
+        app.globalData.openid = res.result.openid
+        this.setData({
+          openid: app.globalData.openid
+        });
+     },
+    })
+  },
 
-      db.collection('users').add({
-        data: {
-          // openid: this.openid
-          name: 'wangyu'
-        },
-        success: res => {
-          // 在返回结果中会包含新创建的记录的 _id
-          console.log('[数据库] [新增记录] 成功，记录 _id: ', res._id)
-        },
-        fail: err => {
-          console.error('[数据库] [新增记录] 失败：', err)
-        }
-      })
+  bindGetUserInfo(e) {
+    this.setData({
+      condition: true,
+      iflogin: false,
+      userInfo: e.detail.userInfo
+      // nickName = e.detail.userInfo.nickName
+      // avatarUrl = e.detail.uuserInfo.avatarUrl
+      // gender = e.detail.userInfo.gender //性别 0：未知、1：男、2：女
+      // province = e.detail.userInfo.province
+      // city = e.detail.userInfo.city
+      // country = e.detail.userInfo.country
+    })
+    console.log(this.data.userInfo);
 
-   },
+    const db = wx.cloud.database();
+    db.collection('users').add({
+      data: {
+        // openid: this.openid
+        name: this.data.userInfo.nickName,
+        avatarUrl: this.data.userInfo.avatarUrl,
+        gender: this.data.userInfo.gender,
+        province: this.data.userInfo.province,
+        city: this.data.userInfo.city,
+        country: this.data.userInfo.country
+      },
+      success: res => {
+        // 在返回结果中会包含新创建的记录的 _id
+        console.log('[数据库] [新增记录] 成功，记录 _id: ', res._id)
+      },
+      fail: err => {
+        console.error('[数据库] [新增记录] 失败：', err)
+      }
+    })
+      
+
   
-  })
   },
 
   /**
