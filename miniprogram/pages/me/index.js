@@ -27,7 +27,8 @@ Page({
 
       db.collection('users').add({
         data: {
-          openid: this.openid
+          // openid: this.openid
+          name: 'wangyu'
         },
         success: res => {
           // 在返回结果中会包含新创建的记录的 _id
@@ -41,8 +42,6 @@ Page({
    },
   
   })
-
-  app.globalData.openid = this.openid;
   },
 
   /**

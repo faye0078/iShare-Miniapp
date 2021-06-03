@@ -16,6 +16,7 @@ Page({
     height: app.globalData.height * 2 + 20,
     result_image_url: [],
     img_url: [],
+    bigImg: [],
     hideAdd: false,
     array: [],
     category_index: null,
@@ -101,7 +102,6 @@ Page({
           }
           //把每次选择的图push进数组
           let img_url = that.data.img_url;
-
           for (let i = 0; i < res.tempFilePaths.length; i++) {
             if (i <= 8) {
               img_url.push(res.tempFilePaths[i])
@@ -129,43 +129,27 @@ Page({
     })
   }, //图片上传
   img_upload: function(res) {
-    let that = this;
-    let img_url = that.data.img_url;
-
-    let images_url = [];
-    //由于图片只能一张一张地上传，所以用循环
-    for (var i = 0; i < img_url.length; i++) {
-      var tempFilePaths = img_url[i];
-      var nowTime = util.formatTime(new Date());
-      //支持多图上传
-      for (var i = 0; i < img_url.length; i++) {
-        //显示消息提示框
-        wx.showLoading({
-          title: '上传中' + (i + 1) + '/' + img_url.length,
-          mask: true
-        })
-
-        //上传图片
-        //你的域名下的/images/文件下的/当前年月日文件下的/图片.png
-        //图片路径可自行修改
-
-        var path = 'images/' + nowTime + '/' + new Date().getTime() + Math.floor(Math.random() * 150) + '.png';
-        uploadImage(img_url[i], path,
-          function(result) {
-            console.log("======上传成功图片地址为：", result);
-            wx.hideLoading();
-          },
-          function(result) {
-            console.log("======上传失败======", result);
-            wx.hideLoading()
-          }
-        )
-        images_url.push(path);
-      }
-
-      that.setData({
-        result_image_url: images_url
-      })
+    let bigImg = this.data.bigImg;
+    let img_url = this.data.img_url;
+    for(var i=0; i< img_url.length; i++){
+      // 返回选定照片的本地文件路径列表，tempFilePath可以作为img标签的src属性显示图片
+     let filePath = img_url[0];
+     let name = Math.random() * 1000000;
+     let cloudPath = name + filePath.match(/\.[^.]+?$/)[0];
+     wx.cloud.uploadFile({
+       cloudPath,//云存储图片名字
+       filePath,//临时路径
+       success: res => {
+         console.log('[上传图片] 成功：', res);
+          bigImg.push(res.fileID);
+          this.setData({
+            bigImg: bigImg
+          });
+       },
+        fail: res => {
+         console.error('[上传图片] 失败：', e)
+       },
+     });
     }
   },
   //去左右空格;
@@ -184,6 +168,11 @@ Page({
       })
       return;
     }
+    this.img_upload();
+    for(let i=0; i<1000;i++){
+      let j=0;
+      j=j+1;
+    }
     var content = this.input_intro;
     const db = wx.cloud.database();
     wx.showModal({
@@ -198,9 +187,9 @@ Page({
           // wx.hideLoading;
           db.collection('post').add({
             data: {
-              title: this.input_level,
-              content: this.input_intro,
-              image: this.img_url,
+              title: this.data.input_level,
+              content: this.data.input_intro,
+              image: this.data.bigImg,
             },
             success: res => {
               // 在返回结果中会包含新创建的记录的 _id
@@ -216,9 +205,9 @@ Page({
             showCancel: false,
             success: function(res) {
               if (res.confirm) {
-                // wx.showLoading({
-                //   title: '更新主页信息中~',
-                // })
+                // wx.navigateTo({
+                //   url: '/pages/map/index',
+                // });
                }
             }
           })
