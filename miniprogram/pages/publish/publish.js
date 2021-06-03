@@ -205,17 +205,17 @@ Page({
             showCancel: false,
             success: function(res) {
               if (res.confirm) {
-                // wx.navigateTo({
-                //   url: '/pages/map/index',
-                // });
+                wx.navigateBack({
+                  delta: 1
+                })
                }
             }
           })
         }
       }
     })
-  },
 
+  },
   bindPickerChange: function(e) {
     this.setData({
       category_index: e.detail.value

@@ -13,9 +13,12 @@
     "pages/openapi/cloudid/cloudid",
     "pages/im/im",
     "pages/im/room/room",
+
     "pages/me/index",
     "pages/map/index",
-    "pages/publish/publish"
+    "pages/publish/publish",
+    "pages/mypublish/mypublish",
+    "pages/publishlist/publishlist"
   ],
   "plugins": {
     "routePlan": {
@@ -32,7 +35,7 @@
     "backgroundColor": "#F6F6F6",
     "backgroundTextStyle": "light",
     "navigationBarBackgroundColor": "#F6F6F6",
-    "navigationBarTitleText": "云开发 QuickStart",
+    "navigationBarTitleText": "iShare",
     "navigationBarTextStyle": "black"
   },
   "tabBar": {
@@ -48,6 +51,12 @@
         "text": "首页"
       },
       {
+        "pagePath": "pages/publishlist/publishlist",
+        "iconPath": "images/ic_menu_me_nor.png",
+        "selectedIconPath": "images/ic_menu_me_pressed.png",
+        "text": "推荐"
+      },
+      {
         "pagePath": "pages/me/index",
         "iconPath": "images/ic_menu_me_nor.png",
         "selectedIconPath": "images/ic_menu_me_pressed.png",
@@ -59,6 +68,7 @@
         "selectedIconPath": "images/ic_menu_me_pressed.png",
         "text": "测试"
       }
+
     ]
   },
   "sitemapLocation": "sitemap.json",

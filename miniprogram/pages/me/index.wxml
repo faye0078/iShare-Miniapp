@@ -18,7 +18,7 @@
 </view>
 
 <view class="uploader">
-    <navigator url="../im/im" open-type="navigate" class="uploader-text">
+    <navigator url="../../pages/mypublish/mypublish" open-type="navigate" class="uploader-text">
       <text>我的发布</text>
     </navigator>
 </view>
