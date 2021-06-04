@@ -11,7 +11,8 @@ Page({
     isHide: true,
     canIUse: wx.canIUse('button.open-type.getUserInfo'),
     condition: false,
-    iflogin: true
+    iflogin: true,
+    isExistUser: '',
   },
 
   /**
@@ -27,6 +28,7 @@ Page({
         this.setData({
           openid: app.globalData.openid
         });
+        console.log(this.data.openid);
      },
     })
   },
@@ -43,29 +45,41 @@ Page({
       // city = e.detail.userInfo.city
       // country = e.detail.userInfo.country
     })
-    console.log(this.data.userInfo);
 
     const db = wx.cloud.database();
-    db.collection('users').add({
-      data: {
-        // openid: this.openid
-        name: this.data.userInfo.nickName,
-        avatarUrl: this.data.userInfo.avatarUrl,
-        gender: this.data.userInfo.gender,
-        province: this.data.userInfo.province,
-        city: this.data.userInfo.city,
-        country: this.data.userInfo.country
-      },
-      success: res => {
-        // 在返回结果中会包含新创建的记录的 _id
-        console.log('[数据库] [新增记录] 成功，记录 _id: ', res._id)
-      },
-      fail: err => {
-        console.error('[数据库] [新增记录] 失败：', err)
+    const _ = db.command
+    db.collection('todos').where({
+      // gt 方法用于指定一个 "大于" 条件，此处 _.gt(30) 是一个 "大于 30" 的条件
+      progress: _.eq(app.globalData.openid)
+    })
+    .get({
+      success: res=> {
+        var choice = res.data;
+        var test = 1;
+        if(choice==''){
+        db.collection('users').add({
+          data: {
+            // openid: this.openid
+            name: this.data.userInfo.nickName,
+            avatarUrl: this.data.userInfo.avatarUrl,
+            gender: this.data.userInfo.gender,
+            province: this.data.userInfo.province,
+            city: this.data.userInfo.city,
+            country: this.data.userInfo.country
+          },
+          success: res => {
+            // 在返回结果中会包含新创建的记录的 _id
+            console.log('[数据库] [新增记录] 成功，记录 _id: ', res._id)
+          },
+          fail: err => {
+            console.error('[数据库] [新增记录] 失败：', err)
+          }
+        })
+      }
       }
     })
-      
-
+    
+    
   
   },
 

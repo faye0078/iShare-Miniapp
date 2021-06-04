@@ -1,4 +1,5 @@
 // pages/map/index.js
+const app = getApp();
 var QQMapWX = require('../../libs/qqmap-wx-jssdk');
 var qqmapsdk;
 var plugin = requirePlugin('routePlan');
@@ -25,12 +26,15 @@ Page({
       type: 'wgs84',
       isHighAccuracy: true,
       success: (res)=> {
+        app.globalData.coordinate.latitude = res.latitude;
+        app.globalData.coordinate.longitude = res.longitude;
         this.setData({
-          latitude: res.latitude,
-          longitude: res.longitude
+          latitude: app.globalData.coordinate.latitude,
+          longitude: app.globalData.coordinate.longitude
         });
       }
      })
+     console.log(app.globalData.postMessage);
     // let endPoint = JSON.stringify({  //终点
     //   'name': '吉野家(北京西站北口店)',
     //   'latitude': 39.89631551,

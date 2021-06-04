@@ -42,6 +42,7 @@ Page({
 
   onLoad() {
 
+    console.log(app.globalData.coordinate);
   },
   /**
    * 删除选择的图片
@@ -190,6 +191,7 @@ Page({
               title: this.data.input_level,
               content: this.data.input_intro,
               image: this.data.bigImg,
+              coordinate: app.globalData.coordinate
             },
             success: res => {
               // 在返回结果中会包含新创建的记录的 _id

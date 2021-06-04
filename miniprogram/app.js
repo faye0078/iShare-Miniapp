@@ -3,6 +3,10 @@ App({
   globalData: {
     openid: "",
     postMessage: [],
+    coordinate: {
+      latitude: '',
+      longitude: ''
+    },
     isupdate: -1
 },
 
@@ -25,20 +29,18 @@ App({
     let postMessage = [];
     db.collection('post').get({
       success: res=>{
-        console.log(res.data);
         postMessage = res.data;
         that.globalData.postMessage = postMessage;
-        console.log(that.globalData.postMessage);
       }
     });
+
   //   const MAX_LIMIT = 8
-  //   const promise = db.collection('post').skip(i * MAX_LIMIT).limit(MAX_LIMIT).get()
   //   exports.main = async (event, context) => {
   //   // 先取出集合记录总数
-  //   const countResult = await db.collection('todos').count()
+  //   const countResult = await db.collection('post').count()
 
   //   // 计算需分几次取
-  //   const batchTimes = Math.ceil(total / 100)
+  //   const batchTimes = Math.ceil(countResult / 100)
   //   // 承载所有读操作的 promise 的数组
   //   const tasks = []
   //   for (let i = 0; i < batchTimes; i++) {

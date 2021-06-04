@@ -1,11 +1,11 @@
-<view style="display:{{isLoading?'block':'none'}}">
-  <view class="main">
-<block wx:for="{{user_message}}" wx:key="{{index}}">
-  <view class="back" bindtap="to_message_detail" id="{{item.messageId}}">
+
+<view class="main">
+<block wx:for="{{user_message}}" wx:key="*this">
+  <view class="back" bindtap="to_message_detail" id="{{item._id}}">
     <view class="main_item">
       <view class="user_message">
         <view class="user_image">
-          <image src="{{item.mangoUser.userAvatar}}" mode="widthFix" />
+          <image src="{{item.image}}" mode="widthFix" />
         </view>
         <view class="user_detail">
           <view class="user_name">
@@ -44,5 +44,4 @@
     </view>
   </view>
 </block>
-</view>
 </view>
