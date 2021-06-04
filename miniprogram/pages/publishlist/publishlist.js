@@ -11,7 +11,7 @@ Page({
     all_data: [],
     activeIndex: 1,
     isLastPage: false, //是否最后一页
-    isLoading: false //页面是否渲染完毕
+    // isLoading: false //页面是否渲染完毕
   },
 
   /**
@@ -25,21 +25,25 @@ Page({
      */
     this.setData({
       all_data: getApp().globalData.postMessage,
-      user_message: all_data.slice(0, 7),
     })
-
+    var testdata = this.data.all_data.slice(0, 4);
+    console.log(testdata);
+    this.setData({
+      user_message: testdata
+    });
+    console.log(this.data.user_message);
   },
 
   /**
    * 生命周期函数--监听页面初次渲染完成
    */
   onReady: function () {
-    let that = this
-    setTimeout(function() {
-      that.setData({
-        isLoading: true
-      })
-    }, 1000)
+    // let that = this
+    // setTimeout(function() {
+    //   that.setData({
+    //     isLoading: true
+    //   })
+    // }, 1000)
   },
 
   /**

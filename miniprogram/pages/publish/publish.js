@@ -135,8 +135,7 @@ Page({
     for(var i=0; i< img_url.length; i++){
       // 返回选定照片的本地文件路径列表，tempFilePath可以作为img标签的src属性显示图片
      let filePath = img_url[0];
-     let name = Math.random() * 1000000;
-     let cloudPath = name + filePath.match(/\.[^.]+?$/)[0];
+     let cloudPath = filePath.match(/\.[^.]+?$/)[0];
      wx.cloud.uploadFile({
        cloudPath,//云存储图片名字
        filePath,//临时路径
@@ -186,8 +185,12 @@ Page({
           //   title: '发布中',
           // })
           // wx.hideLoading;
+          console.log(app.globalData);
           db.collection('post').add({
             data: {
+              nickName: app.globalData.userinfo.nickName,
+              avatarUrl: app.globalData.userinfo.avatarUrl,
+              gender: app.globalData.userinfo.gender,//性别 0：未知、1：男、2：女
               title: this.data.input_level,
               content: this.data.input_intro,
               image: this.data.bigImg,

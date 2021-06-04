@@ -34,6 +34,8 @@ Page({
   },
 
   bindGetUserInfo(e) {
+
+    app.globalData.userinfo = e.detail.userInfo;
     this.setData({
       condition: true,
       iflogin: false,
@@ -47,16 +49,17 @@ Page({
     })
 
     const db = wx.cloud.database();
-    const _ = db.command
-    db.collection('todos').where({
-      // gt 方法用于指定一个 "大于" 条件，此处 _.gt(30) 是一个 "大于 30" 的条件
-      progress: _.eq(app.globalData.openid)
+    const _ = db.command;
+
+    var test = app.globalData.openid;
+    db.collection('users').where({
+      _openid: app.globalData.openid
     })
     .get({
       success: res=> {
         var choice = res.data;
         var test = 1;
-        if(choice==''){
+        if(choice == null || choice == undefined || choice == ''){
         db.collection('users').add({
           data: {
             // openid: this.openid
@@ -77,7 +80,8 @@ Page({
         })
       }
       }
-    })
+      
+     })
     
     
   

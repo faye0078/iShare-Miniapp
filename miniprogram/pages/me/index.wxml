@@ -1,6 +1,6 @@
 
 <view class="container">
-<view class='fds'> 
+<view wx:if="{{iflogin}}"> 
     <button
   wx:if="{{canIUse}}"
   open-type="getUserInfo"

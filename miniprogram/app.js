@@ -2,6 +2,7 @@
 App({
   globalData: {
     openid: "",
+    userinfo: '',
     postMessage: [],
     coordinate: {
       latitude: '',
