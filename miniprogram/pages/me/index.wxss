@@ -25,6 +25,12 @@ page {
   line-height: 60px;
   text-align: center;
 }
+
+.weui-media-box__hd_in-appmsg image{
+  width: 60px;
+  height: 60px;
+}
+
 .weui-media-box__bd_in-appmsg {
   -webkit-box-flex: 1;
   -webkit-flex: 1;

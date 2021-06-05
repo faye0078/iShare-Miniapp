@@ -9,9 +9,8 @@ Page({
     openid: "",
     userInfo: "",
     isHide: true,
-    canIUse: wx.canIUse('button.open-type.getUserInfo'),
-    condition: false,
-    iflogin: true,
+    canIUseGetUserProfile: false,
+    islogin: false,
     isExistUser: '',
   },
 
@@ -19,6 +18,14 @@ Page({
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
+
+    
+    if (wx.getUserProfile) {
+      this.setData({
+        canIUseGetUserProfile: true
+      })
+    }
+
     wx.cloud.callFunction({
       name: 'login',
       data: {},
@@ -33,13 +40,15 @@ Page({
     })
   },
 
-  bindGetUserInfo(e) {
-
-    app.globalData.userinfo = e.detail.userInfo;
+  getUserProfile(e) {
+    wx.getUserProfile({
+    desc: '用于完善会员资料', // 声明获取用户个人信息后的用途，后续会展示在弹窗中，请谨慎填写
+    success: (res) => {
+    app.globalData.userinfo = res.userInfo;
+    app.globalData.islogin = true;
     this.setData({
-      condition: true,
-      iflogin: false,
-      userInfo: e.detail.userInfo
+      islogin: true,
+      userInfo: res.userInfo
       // nickName = e.detail.userInfo.nickName
       // avatarUrl = e.detail.uuserInfo.avatarUrl
       // gender = e.detail.userInfo.gender //性别 0：未知、1：男、2：女
@@ -47,7 +56,7 @@ Page({
       // city = e.detail.userInfo.city
       // country = e.detail.userInfo.country
     })
-
+    console.log(this.data.userInfo.avatarUrl);
     const db = wx.cloud.database();
     const _ = db.command;
 
@@ -83,6 +92,9 @@ Page({
       
      })
     
+  }
+  })
+  
     
   
   },
@@ -98,7 +110,10 @@ Page({
    * 生命周期函数--监听页面显示
    */
   onShow: function () {
-
+    this.setData({
+      islogin: app.globalData.islogin,
+      userInfo: app.globalData.userinfo
+    })
   },
 
   /**

@@ -8,7 +8,8 @@ App({
       latitude: '',
       longitude: ''
     },
-    isupdate: -1
+    isupdate: -1,
+    islogin: false
 },
 
   onLaunch: function () {

@@ -42,7 +42,6 @@ Page({
 
   onLoad() {
 
-    console.log(app.globalData.coordinate);
   },
   /**
    * 删除选择的图片
@@ -130,28 +129,33 @@ Page({
     })
   }, //图片上传
   img_upload: function(res) {
-    let bigImg = this.data.bigImg;
-    let img_url = this.data.img_url;
-    for(var i=0; i< img_url.length; i++){
-      // 返回选定照片的本地文件路径列表，tempFilePath可以作为img标签的src属性显示图片
-     let filePath = img_url[0];
-     let cloudPath = filePath.match(/\.[^.]+?$/)[0];
-     wx.cloud.uploadFile({
-       cloudPath,//云存储图片名字
-       filePath,//临时路径
-       success: res => {
-         console.log('[上传图片] 成功：', res);
-          bigImg.push(res.fileID);
-          this.setData({
-            bigImg: bigImg
-          });
-       },
-        fail: res => {
-         console.error('[上传图片] 失败：', e)
-       },
-     });
-    }
-  },
+
+      let bigImg = this.data.bigImg;
+      let img_url = this.data.img_url;
+      for(var i=0; i< img_url.length; i++){
+        // 返回选定照片的本地文件路径列表，tempFilePath可以作为img标签的src属性显示图片
+       let filePath = img_url[0];
+       let cloudPath = filePath.match(/\.[^.]+?$/)[0];
+       wx.cloud.uploadFile({
+         cloudPath,//云存储图片名字
+         filePath,//临时路径
+         success: res => {
+           console.log('[上传图片] 成功：', res);
+            bigImg.push(res.fileID);
+            this.setData({
+              bigImg: bigImg
+            });
+         },
+          fail: res => {
+           console.error('[上传图片] 失败：', e)
+         },
+       });
+        }
+        
+      },
+    
+
+   
   //去左右空格;
   trim(s) {
     return s.replace(/(^\s*)|(\s*$)/g, "");
@@ -168,11 +172,11 @@ Page({
       })
       return;
     }
-    this.img_upload();
     for(let i=0; i<1000;i++){
       let j=0;
       j=j+1;
     }
+    this.img_upload();
     var content = this.input_intro;
     const db = wx.cloud.database();
     wx.showModal({
@@ -216,15 +220,27 @@ Page({
                }
             }
           })
+          this.updataAll();
         }
       }
     })
-
   },
   bindPickerChange: function(e) {
     this.setData({
       category_index: e.detail.value
     })
 
+  },
+  updataAll: function(){
+    const db = wx.cloud.database();
+    let postMessage = [];
+    db.collection('post').get({
+      success: res=>{
+        postMessage = res.data;
+        app.globalData.postMessage = postMessage;
+        app.globalData.isUpdate = 1;
+      }
+    });
   }
+
 })

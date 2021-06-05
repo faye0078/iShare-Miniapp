@@ -95,9 +95,59 @@ Page({
   },
 
   add() {
+    if(app.globalData.islogin){
     wx.navigateTo({
       url: '/pages/publish/publish',
     });
+  }
+  else{
+    wx.getUserProfile({
+      desc: '用于完善会员资料', // 声明获取用户个人信息后的用途，后续会展示在弹窗中，请谨慎填写
+      success: (res) => {
+      app.globalData.userinfo = res.userInfo;
+      app.globalData.islogin = true;
+
+      const db = wx.cloud.database();
+      const _ = db.command;
+  
+      var test = app.globalData.openid;
+      db.collection('users').where({
+        _openid: app.globalData.openid
+      })
+      .get({
+        success: res=> {
+          var choice = res.data;
+          var test = 1;
+          if(choice == null || choice == undefined || choice == ''){
+          db.collection('users').add({
+            data: {
+              // openid: this.openid
+              name: this.data.userInfo.nickName,
+              avatarUrl: this.data.userInfo.avatarUrl,
+              gender: this.data.userInfo.gender,
+              province: this.data.userInfo.province,
+              city: this.data.userInfo.city,
+              country: this.data.userInfo.country
+            },
+            success: res => {
+              // 在返回结果中会包含新创建的记录的 _id
+              console.log('[数据库] [新增记录] 成功，记录 _id: ', res._id)
+            },
+            fail: err => {
+              console.error('[数据库] [新增记录] 失败：', err)
+            }
+          })
+        }
+        }
+        
+       })
+      
+    }
+    })
+    wx.navigateTo({
+      url: '/pages/publish/publish',
+    });
+  }
   }
  
 })

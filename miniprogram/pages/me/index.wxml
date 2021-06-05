@@ -1,18 +1,15 @@
 
 <view class="container">
-<view wx:if="{{iflogin}}"> 
-    <button
-  wx:if="{{canIUse}}"
-  open-type="getUserInfo"
-  bindgetuserinfo="bindGetUserInfo">
-  授权登录
-</button>
-    </view>
+
+<view wx:if="{{!islogin}}"> 
+<button wx:if="{{canIUseGetUserProfile}}" bindtap="getUserProfile"> 获取头像昵称 </button>
+
+</view>
 <!-- 用户 openid -->
-<view wx:if="{{condition}}"> 
+<view wx:if="{{islogin}}"> 
 <view class="weui-media-box weui-media-box_appmsg" hover-class="weui-cell_active">
     <view class="weui-media-box__hd weui-media-box__hd_in-appmsg">
-        <open-data class="avatar-img" type="userAvatarUrl" lang="zh_CN"></open-data>
+        <image src="{{userInfo.avatarUrl}}" mode="aspectFit" />
 
     </view>
     <view class="weui-media-box__bd weui-media-box__bd_in-appmsg">
