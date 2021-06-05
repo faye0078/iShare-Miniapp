@@ -199,7 +199,7 @@ Page({
               title: this.data.input_level,
               content: this.data.input_intro,
               image: this.data.bigImg,
-              coordinate: app.globalData.coordinate,
+               coordinate: db.Geo.Point(app.globalData.coordinate.longitude, app.globalData.coordinate.latitude),
               createTime:db.serverDate()
             },
             success: res => {

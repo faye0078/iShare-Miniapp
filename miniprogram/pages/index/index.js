@@ -32,6 +32,37 @@ Page({
           latitude: app.globalData.coordinate.latitude,
           longitude: app.globalData.coordinate.longitude
         });
+
+        console.log(this.data);
+        const db =wx.cloud.database();
+      const _ = db.command
+          db.collection('post').where({
+          location: _.geoWithin({
+          centerSphere: [
+            [this.data.longitude, this.data.longitude],
+            10 / 6378.1,
+          ]
+        })
+        }).get({
+          success: (res)=>{
+            console.log(res.data);
+            var mks = []
+            for (var i = 0; i < res.data.length; i++) {
+              mks.push({ // 获取返回结果，放到mks数组中
+                title: res.data[i].title,
+                id: res.data[i].id,
+                latitude: res.data[i].location.lat,
+                longitude: res.data[i].location.lng,
+                iconPath: "../../images/add.png", //图标路径
+                width: 20,
+                height: 20
+              })
+            }
+            this.setData({ //设置markers属性，将搜索结果显示在地图中
+              markers: mks
+            })
+          }
+        })
       }
      })
      console.log(app.globalData.postMessage);
@@ -57,6 +88,7 @@ Page({
    */
   onShow: function () {
 // 事件触发，调用接口
+
   },
 
   /**
