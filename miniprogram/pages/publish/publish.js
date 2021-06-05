@@ -134,8 +134,9 @@ Page({
       let img_url = this.data.img_url;
       for(var i=0; i< img_url.length; i++){
         // 返回选定照片的本地文件路径列表，tempFilePath可以作为img标签的src属性显示图片
-       let filePath = img_url[0];
-       let cloudPath = filePath.match(/\.[^.]+?$/)[0];
+       let filePath = img_url[i];
+       let cloudPath = new Date().getTime()+filePath.match(/\.[^.]+?$/)[0];
+       console.log(cloudPath);
        wx.cloud.uploadFile({
          cloudPath,//云存储图片名字
          filePath,//临时路径
@@ -198,7 +199,8 @@ Page({
               title: this.data.input_level,
               content: this.data.input_intro,
               image: this.data.bigImg,
-              coordinate: app.globalData.coordinate
+              coordinate: app.globalData.coordinate,
+              createTime:db.serverDate()
             },
             success: res => {
               // 在返回结果中会包含新创建的记录的 _id
@@ -234,11 +236,12 @@ Page({
   updataAll: function(){
     const db = wx.cloud.database();
     let postMessage = [];
-    db.collection('post').get({
+    db.collection('post').orderBy('createTime','desc').get({
       success: res=>{
         postMessage = res.data;
         app.globalData.postMessage = postMessage;
         app.globalData.isUpdate = 1;
+        console.log(app.globalData.postMessage);
       }
     });
   }

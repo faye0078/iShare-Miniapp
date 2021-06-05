@@ -29,7 +29,7 @@ App({
 
     const db = wx.cloud.database();
     let postMessage = [];
-    db.collection('post').get({
+    db.collection('post').orderBy('createTime','desc').get({
       success: res=>{
         postMessage = res.data;
         that.globalData.postMessage = postMessage;

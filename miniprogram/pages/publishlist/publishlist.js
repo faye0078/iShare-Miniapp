@@ -31,7 +31,6 @@ Page({
     this.setData({
       user_message: testdata
     });
-    console.log(this.data.user_message);
   },
 
   /**
@@ -50,7 +49,7 @@ Page({
    * 生命周期函数--监听页面显示
    */
   onShow: function () {
-    let that = this
+    this.goTop();
     /**
      * 判断是否更新
      */
@@ -62,7 +61,7 @@ Page({
         })
       getApp().globalData.isUpdate = -1
     }
-
+    console.log(this.data.all_data);
   },
   
 
@@ -103,7 +102,7 @@ Page({
     })
     var that = this;
     that.setData({
-      user_message: that.data.all_data.slice(0,index*8-1)
+      user_message: that.data.all_data.slice(0,index*4)
     })
     wx.hideLoading();
   },
@@ -122,5 +121,18 @@ Page({
         url: '/pages/message_detail/message_detail?messageId=' + e.currentTarget.id,
       })
     },
+    goTop: function (e) {  // 一键回到顶部
+      if (wx.pageScrollTo) {
+        wx.pageScrollTo({
+          scrollTop: 0
+        })
+      } else {
+        wx.showModal({
+          title: '提示',
+          content: '当前微信版本过低，无法使用该功能，请升级到最新微信版本后重试。'
+        })
+      }
+    }
+
  })
 
