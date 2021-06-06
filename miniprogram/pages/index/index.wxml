@@ -8,6 +8,9 @@
       latitude="{{latitude}}"
       longitude="{{longitude}}"
       show-location
+      bindcontroltap="controltap"
+      markers="{{markers}}"
+      bindlabeltap="markertap"
     ></map>
     <view class="bottom">
 				<image src="../../images/add.png" bindtap="add" />

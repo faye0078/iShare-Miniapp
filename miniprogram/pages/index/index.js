@@ -34,38 +34,38 @@ Page({
         });
 
         console.log(this.data);
-        const db =wx.cloud.database();
-      const _ = db.command
-          db.collection('post').where({
-          location: _.geoWithin({
-          centerSphere: [
-            [this.data.longitude, this.data.longitude],
-            10 / 6378.1,
-          ]
-        })
-        }).get({
-          success: (res)=>{
-            console.log(res.data);
+        wx.cloud.callFunction({
+          // 需调用的云函数名
+          name: 'readSQL',
+          data: {
+            type: "getCoodinate",
+            db: "post",
+            longitude: this.data.longitude,
+            latitude: this.data.latitude,
+          },
+          // 成功回调
+          success: res => {
+            console.log(res.result.data);
             var mks = []
-            for (var i = 0; i < res.data.length; i++) {
+            for (var i = 0; i < res.result.data.length; i++) {
               mks.push({ // 获取返回结果，放到mks数组中
-                title: res.data[i].title,
-                id: res.data[i].id,
-                latitude: res.data[i].location.lat,
-                longitude: res.data[i].location.lng,
+                title: res.result.data[i].title,
+                id: res.result.data[i]._id,
+                latitude: res.result.data[i].coordinate.coordinates[1],
+                longitude: res.result.data[i].coordinate.coordinates[0],
                 iconPath: "../../images/add.png", //图标路径
-                width: 20,
-                height: 20
+                width: 50,
+                height: 50
               })
+              console.log(mks);
             }
             this.setData({ //设置markers属性，将搜索结果显示在地图中
               markers: mks
             })
-          }
+         },
         })
       }
      })
-     console.log(app.globalData.postMessage);
     // let endPoint = JSON.stringify({  //终点
     //   'name': '吉野家(北京西站北口店)',
     //   'latitude': 39.89631551,

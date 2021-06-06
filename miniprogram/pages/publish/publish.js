@@ -246,12 +246,14 @@ Page({
 
   },
   updataAll: function(){
-    const db = wx.cloud.database();
     let postMessage = [];
     wx.cloud.callFunction({
       // 需调用的云函数名
       name: 'readSQL',
-      data: {},
+      data: {
+        type: "getAllPost",
+        db: "post"
+      },
       // 成功回调
       success: res => {
         postMessage = res.result.data;

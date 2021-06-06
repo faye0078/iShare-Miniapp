@@ -7,9 +7,22 @@ cloud.init({
 const db = cloud.database();
 // 云函数入口函数
 exports.main = async (event, context) => {
-  const postDB = db.collection('post');
+  const targetDB = db.collection(event.db);
 try{
-  return await postDB.orderBy('createTime','desc').get()
+  if(event.type == "getAllPost"){
+  return await targetDB.orderBy('createTime','desc').get();
+  }
+  if(event.type == "getCoodinate"){
+    const _ = db.command
+    return await targetDB.where({
+          coordinate: _.geoWithin({
+          centerSphere: [
+            [event.longitude, event.latitude],
+            10 / 6378.1,
+          ]
+        })
+        }).get()
+  }
 }catch(e){
   console.error(e)
 }
