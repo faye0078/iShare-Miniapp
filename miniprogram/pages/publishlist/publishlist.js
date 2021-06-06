@@ -7,6 +7,7 @@ Page({
   data: {
     // 此页面 页面内容距最顶部的距离
     // height: app.globalData.height * 2 + 20,
+    isLoading: false,
     user_message: [],
     all_data: [],
     activeIndex: 1,
@@ -37,12 +38,12 @@ Page({
    * 生命周期函数--监听页面初次渲染完成
    */
   onReady: function () {
-    // let that = this
-    // setTimeout(function() {
-    //   that.setData({
-    //     isLoading: true
-    //   })
-    // }, 1000)
+    let that = this
+    setTimeout(function() {
+      that.setData({
+        isLoading: true
+      })
+    }, 100)
   },
 
   /**

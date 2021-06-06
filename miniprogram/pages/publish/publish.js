@@ -128,10 +128,11 @@ Page({
       }
     })
   }, //图片上传
-  img_upload: function(res) {
+  img_upload: function(callBack) {
 
       let bigImg = this.data.bigImg;
       let img_url = this.data.img_url;
+      let number = 0;
       for(var i=0; i< img_url.length; i++){
         // 返回选定照片的本地文件路径列表，tempFilePath可以作为img标签的src属性显示图片
        let filePath = img_url[i];
@@ -146,12 +147,19 @@ Page({
             this.setData({
               bigImg: bigImg
             });
+            number++;
+            console.log(number);
+            if(number==img_url.length){
+              callBack();
+            }
          },
           fail: res => {
            console.error('[上传图片] 失败：', e)
          },
        });
         }
+ 
+        
         
       },
     
@@ -162,8 +170,7 @@ Page({
     return s.replace(/(^\s*)|(\s*$)/g, "");
   },
 
-  submit() {
-
+  truePublish(){
     var that = this;
     if (that.trim(that.data.input_intro) == "" || that.trim(that.data.input_intro) < 2) {
       wx.showModal({
@@ -177,14 +184,10 @@ Page({
       let j=0;
       j=j+1;
     }
-    this.img_upload();
-    var content = this.input_intro;
+    
+      var content = this.input_intro;
     const db = wx.cloud.database();
-    wx.showModal({
-      title: '提示',
-      content: '是否发布',
-      success: res =>{
-        if(res.confirm){
+
 
           // wx.showLoading({
           //   title: '发布中',
@@ -199,7 +202,7 @@ Page({
               title: this.data.input_level,
               content: this.data.input_intro,
               image: this.data.bigImg,
-               coordinate: db.Geo.Point(app.globalData.coordinate.longitude, app.globalData.coordinate.latitude),
+              coordinate: db.Geo.Point(app.globalData.coordinate.longitude, app.globalData.coordinate.latitude),
               createTime:db.serverDate()
             },
             success: res => {
@@ -223,8 +226,17 @@ Page({
             }
           })
           this.updataAll();
-        }
+
+  },
+  submit() {
+    wx.showModal({
+      title: '提示',
+      content: '是否发布',
+      success: res =>{
+        if(res.confirm){
+        this.img_upload(this.truePublish);
       }
+     }
     })
   },
   bindPickerChange: function(e) {
@@ -236,14 +248,18 @@ Page({
   updataAll: function(){
     const db = wx.cloud.database();
     let postMessage = [];
-    db.collection('post').orderBy('createTime','desc').get({
-      success: res=>{
-        postMessage = res.data;
+    wx.cloud.callFunction({
+      // 需调用的云函数名
+      name: 'readSQL',
+      data: {},
+      // 成功回调
+      success: res => {
+        postMessage = res.result.data;
         app.globalData.postMessage = postMessage;
         app.globalData.isUpdate = 1;
         console.log(app.globalData.postMessage);
-      }
-    });
+     },
+    })
   }
 
 })

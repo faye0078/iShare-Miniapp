@@ -29,13 +29,18 @@ App({
 
     const db = wx.cloud.database();
     let postMessage = [];
-    db.collection('post').orderBy('createTime','desc').get({
-      success: res=>{
-        postMessage = res.data;
-        that.globalData.postMessage = postMessage;
-      }
-    });
 
+    wx.cloud.callFunction({
+      // 需调用的云函数名
+      name: 'readSQL',
+      data: {},
+      // 成功回调
+      success: res => {
+        postMessage = res.result.data;
+        that.globalData.postMessage = postMessage;
+        console.log( that.globalData.postMessage);
+     },
+    })
   //   const MAX_LIMIT = 8
   //   exports.main = async (event, context) => {
   //   // 先取出集合记录总数

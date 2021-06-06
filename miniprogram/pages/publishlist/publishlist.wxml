@@ -1,4 +1,4 @@
-
+<view wx:if="{{isLoading}}">
 <view class="main">
 <block wx:for="{{user_message}}" wx:key="*this">
   <view class="back" bindtap="to_message_detail" id="{{item._id}}">
@@ -29,4 +29,5 @@
     </view>
   </view>
 </block>
+</view>
 </view>
