@@ -11,7 +11,13 @@
       bindcontroltap="controltap"
       markers="{{markers}}"
       bindlabeltap="markertap"
-    ></map>
+    >
+    <block wx:for="{{markers}}" wx:key="*this">
+      <cover-view slot="callout">
+      <cover-view marker-id="{{item.id}}"></cover-view>
+      </cover-view>
+    </block>
+    </map>
     <view class="bottom">
 				<image src="../../images/add.png" bindtap="add" />
     </view>

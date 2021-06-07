@@ -14,6 +14,7 @@ page {
   align-items: center;
 }
 .weui-media-box {
+  width: 100%;
   padding: 16px;
   position: relative;
 }
@@ -60,4 +61,8 @@ page {
   display: -webkit-box;
   -webkit-box-orient: vertical;
   -webkit-line-clamp: 2;
+}
+.loginButton{
+  background-color: rgb(54, 175, 38);
+  color:white;
 }

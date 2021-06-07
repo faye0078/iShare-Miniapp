@@ -22,7 +22,7 @@ Page({
     
     let that = this;
     /**
-     * 商家服务
+     * 获取部分数据
      */
     this.setData({
       all_data: getApp().globalData.postMessage,
@@ -84,7 +84,23 @@ Page({
    * 页面相关事件处理函数--监听用户下拉动作
    */
   onPullDownRefresh: function () {
-
+    let postMessage = [];
+    wx.cloud.callFunction({
+      // 需调用的云函数名
+      name: 'readSQL',
+      data: {
+        type: "getAllPost",
+        db: "post"
+      },
+      // 成功回调
+      success: res => {
+        postMessage = res.result.data;
+        getApp().globalData.postMessage = postMessage;
+        getApp().globalData.isUpdate = 1;
+     },
+    });
+    // this.onShow();
+    this.onLoad();
   },
 
   /**

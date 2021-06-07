@@ -2,7 +2,7 @@
 <view class="container">
 
 <view wx:if="{{!islogin}}"> 
-<button wx:if="{{canIUseGetUserProfile}}" bindtap="getUserProfile"> 获取头像昵称 </button>
+<button class="loginButton" wx:if="{{canIUseGetUserProfile}}" bindtap="getUserProfile"> 点击登录 </button>
 
 </view>
 <!-- 用户 openid -->
@@ -24,11 +24,15 @@
 </view>
 </view>
 
+
 <view class="uploader">
+    <view wx:if="{{islogin}}"> 
     <navigator url="../../pages/mypublish/mypublish" open-type="navigate" class="uploader-text">
       <text>我的发布</text>
     </navigator>
+    </view>
 </view>
+
 
 <view class="uploader">
     <navigator url="../im/im" open-type="navigate" class="uploader-text">

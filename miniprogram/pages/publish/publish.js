@@ -171,15 +171,7 @@ Page({
   },
 
   truePublish(){
-    var that = this;
-    if (that.trim(that.data.input_intro) == "" || that.trim(that.data.input_intro) < 2) {
-      wx.showModal({
-        title: '提示',
-        content: '内容有点少噢~(至少两个字)',
-        showCancel: false
-      })
-      return;
-    }
+
     for(let i=0; i<1000;i++){
       let j=0;
       j=j+1;
@@ -229,6 +221,15 @@ Page({
 
   },
   submit() {
+    var that = this;
+    if (that.trim(that.data.input_intro) == "" || that.trim(that.data.input_intro) < 2) {
+      wx.showModal({
+        title: '提示',
+        content: '内容有点少噢~(至少两个字)',
+        showCancel: false
+      })
+      return;
+    }
     wx.showModal({
       title: '提示',
       content: '是否发布',

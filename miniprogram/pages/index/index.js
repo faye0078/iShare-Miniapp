@@ -126,7 +126,7 @@ Page({
 
   },
 
-  add() {
+  add: function() {
     if(app.globalData.islogin){
     wx.navigateTo({
       url: '/pages/publish/publish',
@@ -170,16 +170,23 @@ Page({
             }
           })
         }
+        wx.navigateTo({
+          url: '/pages/publish/publish',
+        });
         }
         
        })
       
     }
     })
+    
+  }
+  },
+
+  controltap: function(){
     wx.navigateTo({
       url: '/pages/publish/publish',
     });
-  }
   }
  
 })
