@@ -53,7 +53,7 @@ Page({
                 id: res.result.data[i]._id,
                 latitude: res.result.data[i].coordinate.coordinates[1],
                 longitude: res.result.data[i].coordinate.coordinates[0],
-                iconPath: "../../images/add.png", //图标路径
+                iconPath: "../../images/marker.png", //图标路径
                 width: 50,
                 height: 50
               })

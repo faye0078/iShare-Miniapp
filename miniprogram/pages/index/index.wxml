@@ -19,6 +19,6 @@
     </block>
     </map>
     <view class="bottom">
-				<image src="../../images/add.png" bindtap="add" />
+				<image src="../../images/another_add.png" bindtap="add" />
     </view>
 </view>
