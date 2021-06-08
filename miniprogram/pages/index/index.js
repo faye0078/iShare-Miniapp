@@ -13,6 +13,9 @@ Page({
   data: {
     latitude: '',
     longitude: '',
+    user_message: [],
+    targetID: '',
+    showModalStatus: false,
   },
 
   /**
@@ -33,7 +36,6 @@ Page({
           longitude: app.globalData.coordinate.longitude
         });
 
-        console.log(this.data);
         wx.cloud.callFunction({
           // 需调用的云函数名
           name: 'readSQL',
@@ -45,7 +47,9 @@ Page({
           },
           // 成功回调
           success: res => {
-            console.log(res.result.data);
+            this.setData({
+              user_message: res.result.data
+            })
             var mks = []
             for (var i = 0; i < res.result.data.length; i++) {
               mks.push({ // 获取返回结果，放到mks数组中
@@ -57,11 +61,11 @@ Page({
                 width: 50,
                 height: 50
               })
-              console.log(mks);
             }
             this.setData({ //设置markers属性，将搜索结果显示在地图中
               markers: mks
             })
+            console.log(this.data.markers);
          },
         })
       }
@@ -88,8 +92,11 @@ Page({
    */
   onShow: function () {
 // 事件触发，调用接口
-
-  },
+if (getApp().globalData.isupdate_1 == 1) {
+  this.onLoad(),
+  getApp().globalData.isupdate_1 = -1
+}
+},
 
   /**
    * 生命周期函数--监听页面隐藏
@@ -183,10 +190,17 @@ Page({
   }
   },
 
-  controltap: function(){
-    wx.navigateTo({
-      url: '/pages/publish/publish',
-    });
+
+  markertap: function(e){
+    console.log(e.detail.markerId-900000000);
+    var number = e.detail.markerId-900000000; 
+
+    console.log(this.data.user_message);
+    this.setData({
+      targetID: this.data.user_message[number],
+      showModalStatus: true
+    })
+    console.log(this.data.targetID);
   }
  
 })

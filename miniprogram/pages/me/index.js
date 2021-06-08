@@ -35,7 +35,6 @@ Page({
         this.setData({
           openid: app.globalData.openid
         });
-        console.log(this.data.openid);
      },
     })
   },

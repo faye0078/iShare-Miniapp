@@ -9,6 +9,7 @@ App({
       longitude: ''
     },
     isupdate: -1,
+    isupdata_1: -1,
     islogin: false
 },
 
@@ -41,7 +42,6 @@ App({
       success: res => {
         postMessage = res.result.data;
         that.globalData.postMessage = postMessage;
-        console.log( that.globalData.postMessage);
      },
     })
   //   const MAX_LIMIT = 8

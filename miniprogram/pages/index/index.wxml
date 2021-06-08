@@ -8,16 +8,35 @@
       latitude="{{latitude}}"
       longitude="{{longitude}}"
       show-location
-      bindcontroltap="controltap"
+      bindmarkertap="markertap"
       markers="{{markers}}"
-      bindlabeltap="markertap"
     >
-    <block wx:for="{{markers}}" wx:key="*this">
-      <cover-view slot="callout">
-      <cover-view marker-id="{{item.id}}"></cover-view>
+    <cover-view class="commodity_screen" bindtap="hideModal" wx:if="{{showModalStatus}}"></cover-view>
+    <!--弹出框  -->
+    <cover-view animation="{{animationData}}" class="commodity_attr_box" wx:if="{{showModalStatus}}">
+ 
+      <cover-view class='placeBox'>
+ 
+        <cover-view class='placeViewLt'>
+          <cover-view class='viewTitle'>{{targetID.title}}</cover-view>
+          <cover-view class='viewDis'> 100 </cover-view>
+          <cover-view class='viewAddr'> 
+            <image src="{{targetID.image[0]}}" mode="aspectFill" />
+          </cover-view>
+        </cover-view>
+ 
       </cover-view>
-    </block>
-    </map>
+ 
+ 
+      <cover-view class='viewIcon'>
+        <cover-image class='indexIcon2' src='/images/nav.png'></cover-image>
+        <cover-view class='timeText1'>导航</cover-view>
+      </cover-view>
+
+    </cover-view>
+  </map>
+  
+
     <view class="bottom">
 				<image src="../../images/another_add.png" bindtap="add" />
     </view>

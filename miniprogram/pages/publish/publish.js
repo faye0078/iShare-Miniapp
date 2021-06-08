@@ -259,7 +259,8 @@ Page({
       success: res => {
         postMessage = res.result.data;
         app.globalData.postMessage = postMessage;
-        app.globalData.isUpdate = 1;
+        app.globalData.isupdate = 1;
+        app.globalData.isupdate_1 = 1;
         console.log(app.globalData.postMessage);
      },
     })

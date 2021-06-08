@@ -54,13 +54,13 @@ Page({
     /**
      * 判断是否更新
      */
-    if (getApp().globalData.isUpdate == 1) {
+    if (getApp().globalData.isupdate == 1) {
       this.onLoad(),
         this.setData({
           activeIndex: 1,
           isLastPage: false, //是否最后一页
         })
-      getApp().globalData.isUpdate = -1
+      getApp().globalData.isupdate = -1
     }
     console.log(this.data.all_data);
   },
