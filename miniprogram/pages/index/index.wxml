@@ -11,31 +11,37 @@
       bindmarkertap="markertap"
       markers="{{markers}}"
     >
-    <cover-view class="commodity_screen" bindtap="hideModal" wx:if="{{showModalStatus}}"></cover-view>
-    <!--弹出框  -->
-    <cover-view animation="{{animationData}}" class="commodity_attr_box" wx:if="{{showModalStatus}}">
- 
-      <cover-view class='placeBox'>
- 
-        <cover-view class='placeViewLt'>
-          <cover-view class='viewTitle'>{{targetID.title}}</cover-view>
-          <cover-view class='viewDis'> 100 </cover-view>
-          <cover-view class='viewAddr'> 
-            <image src="{{targetID.image[0]}}" mode="aspectFill" />
-          </cover-view>
-        </cover-view>
- 
-      </cover-view>
- 
- 
-      <cover-view class='viewIcon'>
-        <cover-image class='indexIcon2' src='/images/nav.png'></cover-image>
-        <cover-view class='timeText1'>导航</cover-view>
-      </cover-view>
+    
 
-    </cover-view>
   </map>
-  
+<view class="commodity_screen" bindtap="hideModal" wx:if="{{showModalStatus}}"></view>
+      <!--弹出框  -->
+<view animation="{{animationData}}" class="commodity_attr_box" wx:if="{{showModalStatus}}">
+ 
+ <view class='placeBox'>
+
+   <view class='placeViewLt'>
+
+     <view class='viewAddr'> 
+       <image src="{{targetID.image[0]}}" mode="aspectFill"></image>
+     </view>
+     <view class='viewTitle'>
+     <view class='title'>事件：{{targetID.title}}</view>
+     <view class='distance'>距离您：100 m</view>
+     </view>
+   </view>
+
+ </view>
+
+
+ <view class='viewIcon'>
+   <image class='indexIcon2' bindtap="letgo" src='../../images/add.png'></image>
+   <view class='timeText1' bindtap="letgo">导航</view>
+   <image class='indexIcon1' bindtap="getDetail" src='../../images/add.png'></image>
+   <view class='timeText2' bindtap="getDetail">详情</view>
+ </view>
+
+</view>
 
     <view class="bottom">
 				<image src="../../images/another_add.png" bindtap="add" />

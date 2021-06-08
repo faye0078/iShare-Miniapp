@@ -5,6 +5,7 @@ var qqmapsdk;
 var plugin = requirePlugin('routePlan');
 var key = '2TUBZ-YLS62-F5MU3-CLO4Y-R4FDV-DOFEO';  //使用在腾讯位置服务申请的key
 var referer = 'iShare Every';   //调用插件的app的名称
+
 Page({
 
   /**
@@ -192,15 +193,63 @@ if (getApp().globalData.isupdate_1 == 1) {
 
 
   markertap: function(e){
+    console.log(e.detail);
+    //电脑
     console.log(e.detail.markerId-900000000);
     var number = e.detail.markerId-900000000; 
-
     console.log(this.data.user_message);
     this.setData({
       targetID: this.data.user_message[number],
       showModalStatus: true
     })
+
+    //手机
+    // for(var i=0;i<this.data.user_message.length;i++){
+    //   if(this.data.user_message[i]._id == e.detail.markerId){
+    //     this.setData({
+    //     targetID: this.data.user_message[i],
+    //     showModalStatus: true
+    //     })
+    //   }
+    // }
     console.log(this.data.targetID);
-  }
+  },
+
+  hideModal: function() {
+    // 隐藏遮罩层
+    var animation = wx.createAnimation({
+      duration: 200,
+      timingFunction: "linear",
+      delay: 0
+    })
+    this.animation = animation
+    animation.translateY(300).step()
+    this.setData({
+      animationData: animation.export(),
+    })
+    setTimeout(function() {
+      animation.translateY(0).step()
+      this.setData({
+        animationData: animation.export(),
+        showModalStatus: false
+      })
+    }.bind(this), 200)
+  },
+
+  letgo: function(){
+    console.log(this.data.targetID.coordinate.coordinates)
+    let endPoint = JSON.stringify({  //终点
+      'latitude': this.data.targetID.coordinate.coordinates[1],
+      'longitude': this.data.targetID.coordinate.coordinates[0]
+  });
+  wx.navigateTo({
+      url: 'plugin://routePlan/index?key=' + key + '&referer=' + referer + '&endPoint=' + endPoint
+  });
+  },
+
+  getDetail: function(){
+    console.log("getDetail")
+  },
  
 })
+
