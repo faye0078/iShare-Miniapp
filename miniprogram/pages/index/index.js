@@ -27,7 +27,7 @@ Page({
       key: key
     });
     wx.getLocation({
-      type: 'wgs84',
+      type: 'gcj02',
       isHighAccuracy: true,
       success: (res)=> {
         app.globalData.coordinate.latitude = res.latitude;
@@ -85,13 +85,16 @@ Page({
    * 生命周期函数--监听页面初次渲染完成
    */
   onReady: function () {
-
+    
   },
 
   /**
    * 生命周期函数--监听页面显示
    */
   onShow: function () {
+    this.setData({
+      showModalStatus: false,
+    })
 // 事件触发，调用接口
 if (getApp().globalData.isupdate_1 == 1) {
   this.onLoad(),
@@ -237,14 +240,26 @@ if (getApp().globalData.isupdate_1 == 1) {
   },
 
   letgo: function(){
-    console.log(this.data.targetID.coordinate.coordinates)
+
+    qqmapsdk.reverseGeocoder({
+       //Object格式
+        location: {
+          latitude: this.data.targetID.coordinate.coordinates[1] ,
+          longitude: this.data.targetID.coordinate.coordinates[0]
+        },
+      success: function(res) {
+        console.log(res.result);
     let endPoint = JSON.stringify({  //终点
-      'latitude': this.data.targetID.coordinate.coordinates[1],
-      'longitude': this.data.targetID.coordinate.coordinates[0]
+      'name': res.result.address,
+      'latitude': res.result.location.lat,
+      'longitude': res.result.location.lng
   });
   wx.navigateTo({
       url: 'plugin://routePlan/index?key=' + key + '&referer=' + referer + '&endPoint=' + endPoint
   });
+      }
+    })
+    
   },
 
   getDetail: function(){
