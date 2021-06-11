@@ -134,8 +134,10 @@ Page({
 
     //跳转到详情页
     to_message_detail: function(e) {
+
+      console.log(e.currentTarget.id);
       wx.navigateTo({
-        url: '/pages/message_detail/message_detail?messageId=' + e.currentTarget.id,
+        url: '/pages/publishdetail/publishdetail?messageId=' + e.currentTarget.id,
       })
     },
     goTop: function (e) {  // 一键回到顶部

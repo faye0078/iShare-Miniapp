@@ -1,11 +1,11 @@
 {
   "pages": [
-
     "pages/index/index",
     "pages/me/index",
     "pages/publish/publish",
     "pages/mypublish/mypublish",
-    "pages/publishlist/publishlist"
+    "pages/publishlist/publishlist",
+    "pages/publishdetail/publishdetail"
   ],
   "plugins": {
     "routePlan": {
@@ -49,10 +49,8 @@
         "selectedIconPath": "images/ic_menu_me_pressed.png",
         "text": "我的"
       }
-
     ]
   },
   "sitemapLocation": "sitemap.json",
   "style": "v2"
-
 }
