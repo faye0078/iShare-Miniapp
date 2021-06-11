@@ -215,7 +215,6 @@ if (getApp().globalData.isupdate_1 == 1) {
     //     })
     //   }
     // }
-    console.log(this.data.targetID);
   },
 
   hideModal: function() {
@@ -262,8 +261,11 @@ if (getApp().globalData.isupdate_1 == 1) {
     
   },
 
-  getDetail: function(){
-    console.log("getDetail")
+  getDetail: function(e){
+    console.log(e.currentTarget.id),
+    wx.navigateTo({
+      url: '/pages/publishdetail/publishdetail?messageId=' + e.currentTarget.id,
+    })
   },
  
 })
