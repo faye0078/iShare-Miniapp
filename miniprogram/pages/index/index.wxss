@@ -65,11 +65,15 @@
 
 }
 .title{
-margin-top: 60rpx;
+margin-top: 30rpx;
 margin-left: 70rpx;
 }
+.condition{
+  margin-top: 40rpx;
+  margin-left: 70rpx;
+}
 .distance{
-  margin-top: 60rpx;
+  margin-top: 40rpx;
   margin-left: 70rpx;
 }
 .viewDis{

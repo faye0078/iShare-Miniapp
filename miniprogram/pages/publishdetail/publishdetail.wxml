@@ -13,7 +13,7 @@
           <view class="user_name">
             <text>{{targetMessage.nickName}}</text>
             <view>
-              <button bindtap="delete_message" style="font-size:28rpx;color:red;display:{{isOwner?'block':'none'}}">删除该文章</button>
+              <button bindtap="delete_message" style="font-size:28rpx;color:red;display:{{isOwner?'block':'none'}}">删除事件</button>
             </view>
           </view>
           <view class="user_flag">
@@ -31,6 +31,10 @@
           <image bindtap="look_image" id="{{item}}" src="{{item}}" mode="widthFix" />
         </block>
       </view>
+    </view>
+    <view class="divide"></view>
+    <view class="manageView">
+      <button class="manage" bindtap="managePost">提供解决方案</button>
     </view>
     <view class="divide"></view>
     <view class="liuyan">
@@ -70,7 +74,7 @@
   <view class="bottom_main">
     <view class='tit_seabox'>
       <view class="tit_seabox_bar" style="width:60%;">
-        <input type="text" placeholder='留言' confirm-type="send"  bindinput='input_comment'bindconfirm="sendComment" />
+        <input type="text" placeholder='留言' confirm-type="send" bindinput='input_comment' value='{{input_comment}}'bindconfirm="sendComment" />
       </view>
       <view class="buttonSend">
       <button class="sendButton" bindtap="sendComment">发送</button>

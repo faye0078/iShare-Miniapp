@@ -196,29 +196,33 @@ Page({
               image: this.data.bigImg,
               coordinate: db.Geo.Point(app.globalData.coordinate.longitude, app.globalData.coordinate.latitude),
               createTime:db.serverDate(),
-              comment:[]
+              comment:[],
+              condition: false,
+              manageDate: []
             },
             success: res => {
+              wx.hideLoading();
               // 在返回结果中会包含新创建的记录的 _id
               console.log('[数据库] [新增记录] 成功，记录 _id: ', res._id);
+              wx.showModal({
+                title: '提示',
+                content: '发布成功',
+                showCancel: false,
+                success: function(res) {
+                  if (res.confirm) {
+                    wx.navigateBack({
+                      delta: 1
+                    })
+                   }
+                }
+              })
+              this.updataAll();
             },
             fail: err => {
               console.error('[数据库] [新增记录] 失败：', err)
             }
           })  
-          wx.showModal({
-            title: '提示',
-            content: '发布成功',
-            showCancel: false,
-            success: function(res) {
-              if (res.confirm) {
-                wx.navigateBack({
-                  delta: 1
-                })
-               }
-            }
-          })
-          this.updataAll();
+          
 
   },
   submit() {
@@ -235,6 +239,9 @@ Page({
       title: '提示',
       content: '是否发布',
       success: res =>{
+        wx.showLoading({
+          title: '发送中',
+        })
         if(res.confirm){
         this.img_upload(this.truePublish);
       }

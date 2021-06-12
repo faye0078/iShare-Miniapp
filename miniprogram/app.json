@@ -5,7 +5,8 @@
     "pages/publish/publish",
     "pages/mypublish/mypublish",
     "pages/publishlist/publishlist",
-    "pages/publishdetail/publishdetail"
+    "pages/publishdetail/publishdetail",
+    "pages/managepublish/managepublish"
   ],
   "plugins": {
     "routePlan": {

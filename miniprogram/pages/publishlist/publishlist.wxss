@@ -20,7 +20,11 @@
   margin-top: 10rpx;
   background-color: rgb(240, 240, 240);
 }
-
+.uploader{
+  border-radius: 1.8em;
+  margin-left: 5rpx;
+  margin-right: 5rpx;
+}
 .back {
   background-color: white;
 }
@@ -48,6 +52,13 @@
 .user_name {
   font-weight: 800;
   color: cadetblue;
+}
+
+.postType{
+  margin-left: 300rpx;
+}
+.condition{
+  margin-top: 20rpx;
 }
 
 .user_flag {

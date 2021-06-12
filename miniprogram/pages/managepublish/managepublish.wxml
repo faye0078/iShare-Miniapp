@@ -1,0 +1,28 @@
+<nav-bar navbar-data='{{nvabarData}}'></nav-bar>
+
+<view class="bottom_item">
+  <view class="message_user">
+    <view class="top_title">题目：</view>
+    <input class="tile" type="text" bindinput='input_level' placeholder="请输您的题目" maxlength="10"></input>
+  </view>
+</view>
+
+<view class="content_title">内容描述：</view>
+<view class="intro">
+    <textarea style="width:100%;margin-top:20rpx;" maxlength="10000" bindinput='input_intro' placeholder="请输入内容描述"></textarea>
+</view>
+<view class="image_content">
+  <view class='image' wx:for="{{img_url}}" wx:key="{{index}}">
+    <image class="moment_img" src="{{item}}" mode="aspectFill"></image>
+    <view class="iconfont icon-cha cha" id="{{item}}" bindtap="deleteImg"></view>
+  </view>
+  <view class='image' style='display:{{hideAdd?"none":"block"}}'>
+    <image bindtap="chooseimage" class="moment_img" src='/images/add_image.png'></image>
+  </view>
+ </view>
+
+<view class="submit">
+  <view bindtap="submit" class="main">
+    <text>确定发布</text>
+  </view>
+</view>

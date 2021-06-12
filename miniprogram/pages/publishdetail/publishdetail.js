@@ -3,24 +3,8 @@
 const app = getApp();
 Page({
   data: {
-    imageUrl:"",
-    showDialog1: false,
-    showDialog2: false,
-    showDialog3: false,
-    showDialog4: false,
-    floorstatus: "none",
-    userIsAdmin: -1, //是否为管理员
-    userId: -1,
     userInfo: {},
-    comment_input: "",
-    comment_reply: "",
-    liuyanName: "",
-    pinglunName: "",
-    commentId: -1,
-    receiveUserId: -1,
-    commentUserId: -1,
     messageDetail: {},
-    isCollection: false,
     // 此页面 页面内容距最顶部的距离
     height: app.globalData.height * 2 + 20,
     isLoading: false, //页面是否渲染完毕
@@ -30,94 +14,7 @@ Page({
     openid: '',
     input_comment: '',
   },
-  //一键返回顶部
-  onPageScroll: function(e) { //判断滚轮位置
-    if (e.scrollTop > 200) {
-      this.setData({
-        floorstatus: "block"
-      });
-    } else {
-      this.setData({
-        floorstatus: "none"
-      });
-    }
-  },
-  goTop: function(e) { // 一键回到顶部
-    if (wx.pageScrollTo) {
-      wx.pageScrollTo({
-        scrollTop: 0
-      })
-    } else {
-      wx.showModal({
-        title: '提示',
-        content: '当前微信版本过低，无法使用该功能，请升级到最新微信版本后重试。'
-      })
-    }
-  },
-
-  toggleDialog4() {
-    this.setData({
-      showDialog4: false
-    })
-  },
-  /**
-   * 管理员回复消息
-   */
-  admin_reply() {
-    let that = this;
-    if (that.data.userId == -1) {
-      wx.showModal({
-        title: '提示',
-        content: '好像没有登录噢~',
-      })
-      return
-    }
-    wx.showLoading({
-      title: '回复中~',
-    })
-    that.setData({
-
-      showDialog4: false
-    })
-    wx.request({
-      url: getApp().globalData.url + '/addNewMessageByAdmin/' + that.data.userId + '/' + that.data.messageDetail.messageId + "/" + that.data.messageDetail.userId,
-      data: that.data.comment_reply,
-      method: "post",
-      success: function(e) {
-        that.setData({
-          comment_reply: "",
-        })
-        if (e.statusCode != 200) {
-          wx.showModal({
-            title: '提示',
-            content: '系统错误',
-          })
-          return
-        }
-
-        if (e.data != 200) {
-          wx.showModal({
-            title: '提示',
-            content: '系统错误',
-          })
-          return
-        } else {
-          wx.showModal({
-            title: '提示',
-            content: '回复成功',
-          })
-
-        }
-
-
-      },
-      complete: function() {
-        wx.hideLoading()
-      }
-    })
-
-  },
-
+  
   delete_comment(e) {
     let that = this;
     if (that.data.userId == -1) {
@@ -238,194 +135,6 @@ Page({
         }
       }
     })
-
-
-  },
-  test() {
-    let that = this;
-    let list = {
-      replayUserId: this.data.userId,
-      replayUserName: this.data.userInfo.nickName,
-      replyDetail: this.data.comment_reply,
-      receiveUserName: this.data.pinglunName,
-      receiveUserId: this.data.commentUserId,
-      commentUserId: this.data.commentUserId,
-      commentId: this.data.commentId,
-    }
-
-    if (that.data.userId == -1) {
-      wx.showModal({
-        title: '提示',
-        content: '好像没有登录噢~',
-        confirmText: "去登陆",
-        success: function(e) {
-          if (e.confirm) {
-            wx.switchTab({
-              url: '/pages/me/me',
-            })
-            return;
-          }
-        }
-      })
-    }
-
-    if (that.data.comment_reply.length < 3) {
-      wx.showModal({
-        title: '提示',
-        content: '至少输入三个字噢~',
-      })
-      return
-    }
-
-    that.setData({
-      showDialog3: false,
-    })
-    wx.showLoading({
-      title: '稍等噢~',
-    })
-    wx.request({
-      url: getApp().globalData.url + '/addCommentReply/' + that.data.messageDetail.messageId,
-      method: "post",
-      data: list,
-      success: function(e) {
-        wx.hideLoading()
-        if (e.statusCode != 200) {
-          wx.showModal({
-            title: '提示',
-            content: '服务器出现问题，请稍后再试',
-          })
-          return;
-        }
-
-        if (e.data.code == 200) {
-          wx.showModal({
-            title: '提示',
-            content: '回复成功~',
-            success: function() {
-              wx.request({
-                url: getApp().globalData.url + '/getMessageDetailById/' + that.data.messageDetail.messageId,
-                method: "post",
-                success: function(e) {
-                  that.setData({
-                    comment_reply: "",
-                    messageDetail: e.data,
-
-                  })
-                }
-              })
-            }
-          })
-        }
-
-        if (e.data.code == 301) {
-          wx.showModal({
-            title: '提示',
-            content: '你已被管理员禁止发布，详情请联系管理员',
-            showCancel: false
-          })
-        }
-
-      }
-    })
-
-  },
-  /**
-   * 回复，返回服务器
-   */
-  comment_reply_btn() {
-    let that = this;
-    let list = {
-      replayUserId: this.data.userId,
-      replayUserName: this.data.userInfo.nickName,
-      replyDetail: this.data.comment_reply,
-      receiveUserName: this.data.liuyanName,
-      receiveUserId: this.data.commentUserId,
-      commentUserId: this.data.commentUserId,
-      commentId: this.data.commentId,
-    }
-    if (that.data.userId == -1) {
-      wx.showModal({
-        title: '提示',
-        content: '好像没有登录噢~',
-        confirmText: "去登陆",
-        success: function(e) {
-          if (e.confirm) {
-            wx.switchTab({
-              url: '/pages/me/me',
-            })
-            return;
-          }
-        }
-      })
-    }
-
-    if (that.data.comment_reply.length < 3) {
-      wx.showModal({
-        title: '提示',
-        content: '至少输入三个字噢~',
-      })
-      return
-    }
-
-    that.setData({
-      showDialog2: false,
-    })
-    wx, wx.showLoading({
-      title: '稍等噢~',
-
-    })
-
-    wx.request({
-      url: getApp().globalData.url + '/addCommentReply/' + that.data.messageDetail.messageId,
-      method: "post",
-      data: list,
-      success: function(e) {
-        wx.hideLoading()
-        if (e.statusCode != 200) {
-          wx.showModal({
-            title: '提示',
-            content: '服务器出现问题，请稍后再试',
-          })
-          return;
-        }
-        if (e.data.code == 200) {
-          wx.showModal({
-            title: '提示',
-            content: '回复成功~',
-            success: function() {
-
-              wx.request({
-                url: getApp().globalData.url + '/getMessageDetailById/' + that.data.messageDetail.messageId,
-                method: "post",
-                success: function(e) {
-                  that.setData({
-                    comment_reply: "",
-                    messageDetail: e.data,
-                  })
-                }
-              })
-            }
-          })
-        }
-
-        if (e.data.code == 301) {
-          wx.showModal({
-            title: '提示',
-            content: '你已被管理员禁止发布，详情请联系管理员',
-            showCancel: false
-          })
-        }
-
-      }
-    })
-  },
-  /**
-   * 回复数据
-   */
-  comment_reply(e) {
-    this.setData({
-      comment_reply: e.detail.value
-    })
   },
 
   input_comment(e){
@@ -475,12 +184,85 @@ Page({
               }
             })
           }
+          if (that.data.input_comment.length < 3) {
+            wx.showModal({
+              title: '提示',
+              content: '至少输入三个字噢~',
+              showCancel: false
+            })
+            return;
+          }
+          wx.showLoading({
+            title: '发送中',
+          })
+          const db = wx.cloud.database();
+          const _=db.command;
+          var commentData = {
+            commentAvatar:this.data.targetMessage.avatarUrl,
+            commentNickname: this.data.targetMessage.nickName,
+            openid:this.data.targetMessage._openid,
+            commentDetail:this.data.input_comment
+        }  
+        console.log(commentData)
+          db.collection('post').doc(this.data.targetMessage._id).update({
+            data: {
+              comment: _.push(commentData)
+            },
+            success: e=>{
+              wx.hideLoading();
+              that.setData({
+                input_comment: ''
+              });
+              wx.showModal({
+                title: '提示',
+                content: '留言成功',
+                showCancel: false,
+                success: function() {
+                  console.log("1");
+                  wx.cloud.callFunction({
+                    // 需调用的云函数名
+                    name: 'readSQL',
+                    data: {
+                      type: "getAllPost",
+                      db: "post"
+                    },
+                    // 成功回调
+                    success: res => {
+                      app.globalData.postMessage = res.result.data;
+                      app.globalData.isupdate = 1;
+                      app.globalData.isupdate_1 = 1;
+                      for(var i=0;i<app.globalData.postMessage.length;i++){
+                        if(app.globalData.postMessage[i]._id == that.data.targetMessage._id){
+                          that.setData({
+                          targetMessage: app.globalData.postMessage[i],
+                          })
+                        }
+                      }
+                   },
+                  });
+                
+                    }
+                  })
+                },
+            fail: e=>{
+              wx.hideLoading();
+              wx.showModal({
+                title: '提示',
+                content: '留言失败',
+                showCancel: false,
+                success: function() {
+      
+                    }
+                  })
+            }
+              })
+          
           }
          }) 
       }
       })
     }
-
+    else{
     if (that.data.input_comment.length < 3) {
       wx.showModal({
         title: '提示',
@@ -507,6 +289,9 @@ Page({
       },
       success: e=>{
         wx.hideLoading();
+        that.setData({
+          input_comment: ''
+        });
         wx.showModal({
           title: '提示',
           content: '留言成功',
@@ -550,6 +335,7 @@ Page({
             })
       }
         })
+      }
   },
 
   updataAll: function(){
@@ -654,69 +440,7 @@ Page({
     })
     getApp().globalData.isUpdate = 1;
   },
-  /**
-   * 收藏
-   */
-  collection() {
-    let that = this;
-    if (that.data.userId == -1) {
-      wx.showModal({
-        title: '提示',
-        content: '好像没有登录噢~',
-        confirmText: "去登陆",
-        success: function(e) {
-          if (e.confirm) {
-            wx.switchTab({
-              url: "/pages/me/me"
-            })
-          }
-        }
-      })
-      return
-    }
-
-    if (that.data.messageDetail.userIdAnonymity == 1) {
-      wx.showModal({
-        title: '提示',
-        content: '匿名信息无法收藏',
-      })
-      return
-    }
-
-    if (that.data.isCollection) {
-      wx.request({
-        url: getApp().globalData.url + '/deleteCollection/' + that.data.userId + '/' + that.data.messageDetail.messageId,
-        method: "post",
-        success: function(e) {
-          if (e.statusCode != 200) {
-            return
-          }
-          if (e.data == 200) {
-            that.setData({
-              isCollection: false
-            })
-          }
-
-        }
-      })
-    } else {
-      wx.request({
-        url: getApp().globalData.url + '/addCollection/' + that.data.userId + '/' + that.data.messageDetail.messageId,
-        method: "post",
-        success: function(e) {
-
-          if (e.statusCode != 200) {
-            return
-          }
-          if (e.data.code == 200) {
-            that.setData({
-              isCollection: true
-            })
-          }
-        }
-      })
-    }
-  },
+  
   onReady() {
     let that = this;
     /**页面渲染完毕 */
@@ -734,27 +458,6 @@ Page({
     wx.previewImage({
       urls: [e.currentTarget.id],
     })
-  },
-  toggleDialog1(e) {
-    this.setData({
-      showDialog1: !this.data.showDialog1
-    });
-  },
-  toggleDialog2(e) {
-    this.setData({
-      showDialog2: !this.data.showDialog2,
-      liuyanName: e.target.dataset.name,
-      commentId: e.target.dataset.commentid,
-      commentUserId: e.target.id,
-    });
-  },
-  toggleDialog3(e) {
-    this.setData({
-      showDialog3: !this.data.showDialog3,
-      pinglunName: e.currentTarget.dataset.name,
-      commentId: e.target.dataset.commentid,
-      commentUserId: e.target.id,
-    });
   },
 
   onLoad(options) {
@@ -776,50 +479,14 @@ Page({
         isOwner: true
       })
     }
-    // wx.getStorage({
-    //   key: 'userId',
-    //   success: function(res) {
-    //     that.setData({
-    //       userId: res.data
-    //     })
-    //   },
-    // })
-
-    // wx.getStorage({
-    //   key: 'userInfo',
-    //   success: function(res) {
-    //     that.setData({
-    //       userInfo: res.data
-    //     })
-    //   },
-    // })
-
-
     this.setData({
       messageId: options.messageId
     })
 
   },
-  share_message() {
-
-    let that = this;
-    wx.request({
-      url: getApp().globalData.url + '/share/addShareCount/' + that.data.messageDetail.messageId,
-      method: "post",
-      success: function(e) {}
+  managePost(){
+    wx.navigateTo({
+      url: '/pages/managepublish/managepublish?messageId=' + this.data.targetMessage._id,
     })
-  },
-  /**
-  更新留言信息 */
-  comment_input(e) {
-    this.setData({
-      comment_input: e.detail.value
-    })
-  },
-  onShareAppMessage(e) {
-    return {
-      title: "来看看~",
-      success: function(res) {},
-    }
   }
 })
