@@ -35,7 +35,7 @@
     <view class="divide"></view>
     <view class="liuyan">
 
-      <block wx:for="{{targetMessage.comments}}" wx:key="{{index}}">
+      <block wx:for="{{targetMessage.comment}}" wx:key="{{index}}">
         <view class="liuyan_item">
           <view class="user_message">
             <view class="user_image">
@@ -48,37 +48,15 @@
                   <button bindtap="delete_comment" id="{{item.commentId}}" style="font-size:28rpx;color:red;display:{{item.openid==openid?'block':'none'}}">删除</button>
                 </view>
               </view>
-              <view class="user_flag">
-                <view>{{item.commentCreatTime}}</view>
-              </view>
             </view>
           </view>
-          <view class="liuyan_intro" data-name="{{item.mangoUser.userNickname}}" data-commentId="{{item.commentId}}" id="{{item.userId}}" bindtap="toggleDialog2">
+          <view class="liuyan_intro" data-name="{{item.mangoUser.userNickname}}" data-commentId="{{item.commentId}}" id="{{item.userId}}">
             {{item.commentDetail}}
-          </view>
-          <view class="have_message">
-            <block wx:for="{{item.commentReplies}}" wx:for-item="replay" wx:key="{{index}}">
-              <view class="have_message_item">
-
-                <view class="test">
-                  <view class="have_message_user">{{replay.replayUserName}}
-                    <text decode="{{true}}" style="color:#999;display:{{(item.userId==replay.receiveUserId)?'none':'inline'}}">&nbsp;回复&nbsp;</text>{{(item.userId==replay.receiveUserId)?"":(replay.receiveUserName)}}
-                  </view>
-                  <view style="color:red">
-                    <button bindtap="delete_comment_reply" id="{{replay.commentReplyId}}" style="font-size:28rpx;color:red;display:{{userIsAdmin==2?'block':replay.replayUserId==userId?'block':'none'}}">删除</button>
-                  </view>
-                </view>
-                <view class="have_message_intro" style="word-wrap:break-word;" bindtap="toggleDialog3" data-commentId="{{item.commentId}}" data-name="{{replay.replayUserName}}" id="{{replay.replayUserId}}">{{replay.replyDetail}}</view>
-              </view>
-            </block>
           </view>
         </view>
         <view class="divide" style="margin-left: 120rpx;"></view>
       </block>
-
     </view>
-
-
   </view>
 </view>
 
@@ -92,7 +70,10 @@
   <view class="bottom_main">
     <view class='tit_seabox'>
       <view class="tit_seabox_bar" style="width:60%;">
-        <input type="text" placeholder='留下你的脚步吧~' bindtap="toggleDialog1" disabled />
+        <input type="text" placeholder='留言' confirm-type="send"  bindinput='input_comment'bindconfirm="sendComment" />
+      </view>
+      <view class="buttonSend">
+      <button class="sendButton" bindtap="sendComment">发送</button>
       </view>
     </view>
   </view>

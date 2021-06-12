@@ -57,9 +57,7 @@ Page({
     })
     console.log(this.data.userInfo.avatarUrl);
     const db = wx.cloud.database();
-    const _ = db.command;
-
-    var test = app.globalData.openid;
+    
     db.collection('users').where({
       _openid: app.globalData.openid
     })

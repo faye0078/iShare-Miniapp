@@ -195,7 +195,8 @@ Page({
               content: this.data.input_intro,
               image: this.data.bigImg,
               coordinate: db.Geo.Point(app.globalData.coordinate.longitude, app.globalData.coordinate.latitude),
-              createTime:db.serverDate()
+              createTime:db.serverDate(),
+              comment:[]
             },
             success: res => {
               // 在返回结果中会包含新创建的记录的 _id
@@ -257,8 +258,7 @@ Page({
       },
       // 成功回调
       success: res => {
-        postMessage = res.result.data;
-        app.globalData.postMessage = postMessage;
+        app.globalData.postMessage = res.result.data;
         app.globalData.isupdate = 1;
         app.globalData.isupdate_1 = 1;
         console.log(app.globalData.postMessage);
