@@ -283,24 +283,40 @@ if (getApp().globalData.isupdate_1 == 1) {
     // console.log(this.data.search_message);
     // console.log(number);
     // if(this.data.isSearch){
+    //   var a = this.data.search_message[number].coordinate.coordinates[1];
+    //     var b = this.data.search_message[number].coordinate.coordinates[0]
+    //     console.log(a);
+    //     var distance =this.distance(a,b,app.globalData.coordinate.latitude,app.globalData.coordinate.longitude)
     //   this.setData({
     //     targetID: this.data.search_message[number],
-    //     showModalStatus: true
+    //     showModalStatus: true,
+    //     distance: distance
     // })
     // }
     // else{
+    //   var a = this.data.user_message[number].coordinate.coordinates[1];
+    //     var b = this.data.user_message[number].coordinate.coordinates[0]
+    //     console.log(a);
+    //     var distance =this.distance(a,b,app.globalData.coordinate.latitude,app.globalData.coordinate.longitude)
     // this.setData({
     //   targetID: this.data.user_message[number],
-    //   showModalStatus: true
+    //   showModalStatus: true,
+    //   distance:distance
     // })
     // }
     // 手机
     if(this.data.isSearch){
       for(var i=0;i<this.data.search_message.length;i++){
-        if(this.data.user_message[i]._id == e.detail.markerId){
+        if(this.data.search_message[i]._id == e.detail.markerId){
+        var a = this.data.search_message[i].coordinate.coordinates[1];
+        var b = this.data.search_message[i].coordinate.coordinates[0]
+        console.log(a);
+        var distance =this.distance(a,b,app.globalData.coordinate.latitude,app.globalData.coordinate.longitude)
+        console.log(distance);
           this.setData({
-          targetID: this.data.user_message[i],
-          showModalStatus: true
+          targetID: this.data.search_message[i],
+          showModalStatus: true,
+          distance: distance
           })
         }
       }
