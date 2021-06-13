@@ -33,7 +33,7 @@
       </view>
     </view>
     <view class="divide"></view>
-    <view class="manageView">
+    <view wx:if="{{!targetMessage.condition}}" class="manageView">
       <button class="manage" bindtap="managePost">提供解决方案</button>
     </view>
     <view class="divide"></view>
@@ -69,17 +69,15 @@
 <view class="end" style="text-align:center;color:#999;font-size:25rpx;margin:10rpx;margin-top:20rpx;height:150rpx;">
   ————————— End —————————
 </view>
-<view class="page-section tc">
+<view class="managedetail"wx:if="{{targetMessage.condition}}">
+  <view class="managetext">
+            解决方案：{{targetMessage.manageData[0].text_intro}}
+          </view>
 <video class="video"
       id="myVideo" 
-      src="http://wxsnsdy.tc.qq.com/105/20210/snsdyvideodownload?filekey=30280201010421301f0201690402534804102ca905ce620b1241b726bc41dcff44e00204012882540400&bizid=1023&hy=SH&fileparam=302c020101042530230204136ffd93020457e3c4ff02024ef202031e8d7f02030f42400204045a320a0201000400" 
-      binderror="videoErrorCallback" 
-      show-center-play-btn='{{true}}' 
-      show-play-btn="{{true}}" 
+      src="{{targetMessage.manageData[0].bigData}}"
     ></video>
-    <view class="liuyan_intro">
-            {{manageDetail}}
-          </view>
+
 </view>
 <view class="bottom">
   <view class="bottom_main">

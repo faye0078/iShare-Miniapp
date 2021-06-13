@@ -15,7 +15,15 @@ Page({
     input_comment: '',
     manageDetail: ''
   },
-  
+  onShow(){
+    for(var i=0;i<app.globalData.postMessage.length;i++){
+      if(app.globalData.postMessage[i]._id == this.data.targetMessage._id){
+        this.setData({
+        targetMessage: app.globalData.postMessage[i],
+        })
+      }
+    }
+  },
   delete_comment(e) {
     let that = this;
     if (that.data.userId == -1) {
@@ -207,7 +215,8 @@ Page({
         console.log(commentData)
           db.collection('post').doc(this.data.targetMessage._id).update({
             data: {
-              comment: _.push(commentData)
+              comment: _.push(commentData),
+              createTime: db.serverDate(),
             },
             success: e=>{
               wx.hideLoading();
@@ -286,7 +295,8 @@ Page({
   console.log(commentData)
     db.collection('post').doc(this.data.targetMessage._id).update({
       data: {
-        comment: _.push(commentData)
+        comment: _.push(commentData),
+        createTime: db.serverDate(),
       },
       success: e=>{
         wx.hideLoading();

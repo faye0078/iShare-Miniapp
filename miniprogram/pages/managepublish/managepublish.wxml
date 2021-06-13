@@ -2,14 +2,18 @@
 
 
 
-<view class="content_title">内容描述：</view>
+<view class="content_title">解决方案：</view>
 <view class="intro">
-    <textarea style="width:100%;margin-top:20rpx;" maxlength="10000" bindinput='input_intro' placeholder="请输入内容描述"></textarea>
+    <textarea style="width:100%;margin-top:20rpx;" maxlength="10000" bindinput='input_intro' placeholder="请输入解决方案"></textarea>
 </view>
 <view class="image_content">
-  <view class='image' wx:for="{{img_url}}" wx:key="{{index}}">
-    <image class="moment_img" src="{{item}}" mode="aspectFill"></image>
-    <view class="iconfont icon-cha cha" id="{{item}}" bindtap="deleteImg"></view>
+  <view wx:if="{{showimage}}" class='image' >
+    <image class="moment_img" src="{{image_url}}" mode="aspectFill"></image>
+    <view class="iconfont icon-cha cha" id="{{image_url}}" bindtap="deleteImage"></view>
+  </view>
+  <view wx:if="{{showvideo}}" class='image' >
+    <video class="moment_img" src="{{video_url}}" mode="aspectFill"></video>
+    <view class="iconfont icon-cha cha" id="{{image_url}}" bindtap="deleteVideo"></view>
   </view>
   <view class='image' style='display:{{hideAdd?"none":"block"}}'>
     <image bindtap="chooseimage" class="moment_img" src='/images/add_image.png'></image>

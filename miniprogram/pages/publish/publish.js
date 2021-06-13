@@ -170,21 +170,10 @@ Page({
     return s.replace(/(^\s*)|(\s*$)/g, "");
   },
 
-  truePublish(){
-
-    for(let i=0; i<1000;i++){
-      let j=0;
-      j=j+1;
-    }
-    
+  truePublish(){ 
       var content = this.input_intro;
     const db = wx.cloud.database();
 
-
-          // wx.showLoading({
-          //   title: '发布中',
-          // })
-          // wx.hideLoading;
           console.log(app.globalData);
           db.collection('post').add({
             data: {
@@ -198,7 +187,7 @@ Page({
               createTime:db.serverDate(),
               comment:[],
               condition: false,
-              manageDate: []
+              manageData: []
             },
             success: res => {
               wx.hideLoading();

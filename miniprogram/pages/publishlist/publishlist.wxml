@@ -18,9 +18,6 @@
           </view>
         </view>
         <view class="postType">
-          <view class="distance">
-            <text>距你100m</text>
-          </view>
           <view class="condition">
           <text>{{item.condition?'已处理':'未处理'}}</text>
           </view>

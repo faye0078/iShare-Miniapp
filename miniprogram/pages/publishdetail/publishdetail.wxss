@@ -245,9 +245,12 @@ textarea {
   margin-top: 20rpx;
 }
 .video{
-  width: 300px;
-  height: 225px;
-  justify-content: center;
-  margin-left: 60rpx;
+  margin-top: 10rpx;
+  display: inline-block;
 }
+.managedetail{
+  display: block;
+  padding: 10rpx;
+}
+
 

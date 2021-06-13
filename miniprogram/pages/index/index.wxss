@@ -156,3 +156,33 @@ margin-left: 70rpx;
 .btn-area{ width: 100%;}
 .btn_no{ float:left;width: 40%; margin-left: 5%;border: 0px;}
 .btn_ok{ float:left;width: 40%; margin-left: 10%;margin-right: 5%; border: 0px;}
+.tit_seabox {
+  width: calc(100% - 64rpx);
+  background: #fff;
+  height: 30px;
+  padding: 10px 16px;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+  align-items: center;
+  overflow: hidden;
+}
+
+.tit_seabox_bar {
+  width: 70% !important;
+  height: 30px;
+  display: flex;
+  align-items: center;
+  border-radius: 15px;
+  background: #f5f5f5;
+  padding-left: 16px;
+}
+.buttonSend{
+  width: 25% !important;
+}
+.sendButton{
+  width: 80% !important;
+  height: 30px;
+  background: rgb(54, 175, 38);
+  font-size: 21rpx;
+}

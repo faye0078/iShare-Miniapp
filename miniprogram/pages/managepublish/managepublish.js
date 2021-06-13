@@ -10,7 +10,14 @@ Page({
     userInfo: '',
     openid: '',
     targetMessage: '',
-    hideAdd: false
+    image_url: '',
+    video_url: '',
+    hideAdd: false,
+    showimage: false,
+    showvideo: false,
+    bigImg: '',
+    type: '',
+    input_intro: ''
   },
 
   /**
@@ -30,6 +37,12 @@ Page({
     }
   },
 
+  input_intro: function(e) {
+    let value = e.detail.value;
+    this.setData({
+      input_intro: value
+    })
+  },
   /**
    * 生命周期函数--监听页面初次渲染完成
    */
@@ -78,7 +91,31 @@ Page({
   onShareAppMessage: function () {
 
   },
+
+  deleteImage(){
+    this.setData({
+      showimage: false,
+      hideAdd: false,
+      video_url: '',
+      type: ''
+      })
+  },
+  deleteVideo(){
+    this.setData({
+      showvideo: false,
+      hideAdd: false,
+      image_url: '',
+      type: ''
+    })
+  },
+   
+  //去左右空格;
+  trim(s) {
+    return s.replace(/(^\s*)|(\s*$)/g, "");
+  },
+
   chooseimage: function() {
+    let that = this;
     wx.chooseMedia({
       count: 1,
       mediaType: ['image','video'],
@@ -86,67 +123,35 @@ Page({
       maxDuration: 30,
       camera: 'back',
       success(res) {
-        console.log(res.tempFiles.tempFilePath)
-        console.log(res.tempFiles.size)
+        var data = res
+        console.log(data)
+        console.log(data.tempFiles)
+        if(data.type=="image")
         that.setData({
-          hideAdd: true
+          showimage: true,
+          hideAdd: true,
+          image_url: data.tempFiles[0].tempFilePath,
+          type: "image"
         })
-      }
-    })
-    var that = this;
-    wx.chooseImage({
-      count: 9 - that.data.img_url.length, // 默认9 
-      sizeType: ['original', 'compressed'], // 可以指定是原图还是压缩图，默认二者都有 
-      sourceType: ['album', 'camera'], // 可以指定来源是相册还是相机，默认二者都有 
-      success: function(res) {
-
-        if (res.tempFilePaths.length > 0) {
-          //图如果满了9张，不显示加图
-          if (that.data.img_url.length == 9) {
-            that.setData({
-              hideAdd: true
-            })
-          } else {
-            that.setData({
-              hideAdd: false
-            })
-          }
-          //把每次选择的图push进数组
-          let img_url = that.data.img_url;
-          for (let i = 0; i < res.tempFilePaths.length; i++) {
-            if (i <= 8) {
-              img_url.push(res.tempFilePaths[i])
-            }
-
-          }
+        else if(data.type=="video"){
           that.setData({
-            img_url: img_url
+          showvideo: true,
+          hideAdd: true,
+          video_url: data.tempFiles[0].tempFilePath,
+          type: "video"
           })
-          /**
-           * 如果选择多于九张,停止添加
-           */
-
-          if (that.data.img_url.length == 9) {
-            that.setData({
-              hideAdd: true
-            })
-          } else {
-            that.setData({
-              hideAdd: false
-            })
-          }
         }
+        console.log(that.data.video_url)
+        console.log(that.data.image_url)
       }
     })
-  }, //图片上传
+  }, //上传
   img_upload: function(callBack) {
-
+    if(this.data.type=="image"){
       let bigImg = this.data.bigImg;
-      let img_url = this.data.img_url;
-      let number = 0;
-      for(var i=0; i< img_url.length; i++){
+      let img_url = this.data.image_url;
         // 返回选定照片的本地文件路径列表，tempFilePath可以作为img标签的src属性显示图片
-       let filePath = img_url[i];
+       let filePath = img_url;
        let cloudPath = new Date().getTime()+filePath.match(/\.[^.]+?$/)[0];
        console.log(cloudPath);
        wx.cloud.uploadFile({
@@ -154,87 +159,106 @@ Page({
          filePath,//临时路径
          success: res => {
            console.log('[上传图片] 成功：', res);
-            bigImg.push(res.fileID);
+            bigImg = res.fileID;
             this.setData({
               bigImg: bigImg
             });
-            number++;
-            console.log(number);
-            if(number==img_url.length){
-              callBack();
-            }
+            callBack();
+            
          },
           fail: res => {
            console.error('[上传图片] 失败：', e)
          },
        });
-        }
- 
         
+      }
+      else if(this.data.type=="video"){
+      let bigImg = this.data.bigImg;
+      let img_url = this.data.video_url;
+      let number = 0;
+        // 返回选定照片的本地文件路径列表，tempFilePath可以作为img标签的src属性显示图片
+       let filePath = img_url;
+       let cloudPath = new Date().getTime()+filePath.match(/\.[^.]+?$/)[0];
+       console.log(cloudPath);
+       wx.cloud.uploadFile({
+         cloudPath,//云存储图片名字
+         filePath,//临时路径
+         success: res => {
+           console.log('[上传视频] 成功：', res);
+            bigImg = res.fileID;
+            this.setData({
+              bigImg: bigImg
+            });
+            callBack();
+         },
+          fail: res => {
+           console.error('[上传视频] 失败：', e)
+         },
+       });
         
-      },
-    
-
-   
-  //去左右空格;
-  trim(s) {
-    return s.replace(/(^\s*)|(\s*$)/g, "");
+      }
   },
+    
+  
 
   truePublish(){
-
-    for(let i=0; i<1000;i++){
-      let j=0;
-      j=j+1;
-    }
-    
-      var content = this.input_intro;
     const db = wx.cloud.database();
-
-
-          // wx.showLoading({
-          //   title: '发布中',
-          // })
-          // wx.hideLoading;
-          console.log(app.globalData);
-          db.collection('post').add({
-            data: {
-              nickName: app.globalData.userinfo.nickName,
-              avatarUrl: app.globalData.userinfo.avatarUrl,
-              gender: app.globalData.userinfo.gender,//性别 0：未知、1：男、2：女
-              title: this.data.input_level,
-              content: this.data.input_intro,
-              image: this.data.bigImg,
-              coordinate: db.Geo.Point(app.globalData.coordinate.longitude, app.globalData.coordinate.latitude),
-              createTime:db.serverDate(),
-              comment:[],
-              condition: false,
-              manageDate: []
-            },
-            success: res => {
-              wx.hideLoading();
-              // 在返回结果中会包含新创建的记录的 _id
-              console.log('[数据库] [新增记录] 成功，记录 _id: ', res._id);
-              wx.showModal({
-                title: '提示',
-                content: '发布成功',
-                showCancel: false,
-                success: function(res) {
-                  if (res.confirm) {
-                    wx.navigateBack({
-                      delta: 1
-                    })
-                   }
-                }
-              })
-              this.updataAll();
-            },
-            fail: err => {
-              console.error('[数据库] [新增记录] 失败：', err)
-            }
-          })  
+    const _=db.command;
+    var manageData = {
+      text_intro:this.data.input_intro,
+      bigData: this.data.bigImg
+  }  
+  console.log(manageData)
+    db.collection('post').doc(this.data.targetMessage._id).update({
+      data: {
+        manageData: _.push(manageData),
+        condition: true,
+        createTime: db.serverDate(),
+      },
+      success: e=>{
+        wx.hideLoading();
+        wx.showModal({
+          title: '提示',
+          content: '发布成功',
+          showCancel: false,
+          success: function() {
+            wx.showLoading({
+              title: '更新中',
+            })
+            wx.cloud.callFunction({
+              // 需调用的云函数名
+              name: 'readSQL',
+              data: {
+                type: "getAllPost",
+                db: "post"
+              },
+              // 成功回调
+              success: res => {
+                app.globalData.postMessage = res.result.data;
+                app.globalData.isupdate = 1;
+                app.globalData.isupdate_1 = 1;
+                wx.hideLoading();
+                wx.navigateBack({
+                  delta: 1
+                })
+             },
+            });
           
+              }
+            })
+          },
+      fail: e=>{
+        wx.hideLoading();
+        wx.showModal({
+          title: '提示',
+          content: '发布失败',
+          showCancel: false,
+          success: function() {
 
+              }
+            })
+      }
+        }) 
   },
   submit() {
     var that = this;
@@ -251,7 +275,7 @@ Page({
       content: '是否发布',
       success: res =>{
         wx.showLoading({
-          title: '发送中',
+          title: '发送中(视频文件较大，请稍等)',
         })
         if(res.confirm){
         this.img_upload(this.truePublish);

@@ -28,7 +28,7 @@ Page({
     const db = wx.cloud.database();
     db.collection('post').where({
       _openid: id
-    }).get({
+    }).orderBy('createTime','desc').get({
       success: res => {
         this.data.all_data = res.data;
         console.log(this.data.all_data);

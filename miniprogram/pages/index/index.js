@@ -15,8 +15,12 @@ Page({
     latitude: '',
     longitude: '',
     user_message: [],
+    search_message: [],
     targetID: '',
     showModalStatus: false,
+    input_search: '',
+    isSearch: false,
+    distance: 0,
   },
 
   /**
@@ -71,14 +75,6 @@ Page({
         })
       }
      })
-    // let endPoint = JSON.stringify({  //终点
-    //   'name': '吉野家(北京西站北口店)',
-    //   'latitude': 39.89631551,
-    //   'longitude': 116.323459711
-    // });
-    // wx.navigateTo({
-    //   url: 'plugin://routePlan/index?key=' + key + '&referer=' + referer + '&endPoint=' + endPoint
-    // });
   },
 
   /**
@@ -97,7 +93,51 @@ Page({
     })
 // 事件触发，调用接口
 if (getApp().globalData.isupdate_1 == 1) {
-  this.onLoad(),
+  wx.getLocation({
+    type: 'gcj02',
+    isHighAccuracy: true,
+    success: (res)=> {
+      app.globalData.coordinate.latitude = res.latitude;
+      app.globalData.coordinate.longitude = res.longitude;
+      this.setData({
+        latitude: app.globalData.coordinate.latitude,
+        longitude: app.globalData.coordinate.longitude
+      });
+
+      wx.cloud.callFunction({
+        // 需调用的云函数名
+        name: 'readSQL',
+        data: {
+          type: "getCoodinate",
+          db: "post",
+          longitude: this.data.longitude,
+          latitude: this.data.latitude,
+        },
+        // 成功回调
+        success: res => {
+          this.setData({
+            user_message: res.result.data
+          })
+          var mks = []
+          for (var i = 0; i < res.result.data.length; i++) {
+            mks.push({ // 获取返回结果，放到mks数组中
+              title: res.result.data[i].title,
+              id: res.result.data[i]._id,
+              latitude: res.result.data[i].coordinate.coordinates[1],
+              longitude: res.result.data[i].coordinate.coordinates[0],
+              iconPath: "../../images/marker.png", //图标路径
+              width: 50,
+              height: 50
+            })
+          }
+          this.setData({ //设置markers属性，将搜索结果显示在地图中
+            markers: mks
+          })
+          console.log(this.data.markers);
+       },
+      })
+    }
+   })
   getApp().globalData.isupdate_1 = -1
 }
 },
@@ -135,6 +175,44 @@ if (getApp().globalData.isupdate_1 == 1) {
    */
   onShareAppMessage: function () {
 
+  },
+  input_search(e){
+    let value = e.detail.value;
+  this.setData({
+    input_search: value
+  });
+  },
+
+  searchMarkers(){
+    let that = this;
+    let target = this.data.input_search;
+    wx.showLoading({
+      title: '搜索中',
+    })
+   var searchdata = []
+   var mks = []
+    for(let i=0;i<that.data.user_message.length;i++){
+      console.log(that.data.user_message[i].title);
+      if(that.data.user_message[i].title==target){
+        searchdata.push(that.data.user_message[i])
+        mks.push({ // 获取返回结果，放到mks数组中
+          title: that.data.user_message[i].title,
+          id: that.data.user_message[i]._id,
+          latitude: that.data.user_message[i].coordinate.coordinates[1],
+          longitude:that.data.user_message[i].coordinate.coordinates[0],
+          iconPath: "../../images/marker.png", //图标路径
+          width: 50,
+          height: 50
+        })
+      }
+    }
+    this.setData({
+      search_message: searchdata,
+      markers: mks,
+      input_search: '',
+      isSearch: true
+    })
+    wx.hideLoading();
   },
 
   add: function() {
@@ -198,23 +276,46 @@ if (getApp().globalData.isupdate_1 == 1) {
   markertap: function(e){
     console.log(e.detail);
     //电脑
-    console.log(e.detail.markerId-900000000);
-    var number = e.detail.markerId-900000000; 
-    console.log(this.data.user_message);
-    this.setData({
-      targetID: this.data.user_message[number],
-      showModalStatus: true
-    })
-
-    //手机
-    // for(var i=0;i<this.data.user_message.length;i++){
-    //   if(this.data.user_message[i]._id == e.detail.markerId){
-    //     this.setData({
-    //     targetID: this.data.user_message[i],
+    // console.log(e.detail.markerId-900000000);
+    // var number = e.detail.markerId-900000000; 
+    // console.log(this.data.user_message);
+    // console.log(this.data.search_message);
+    // console.log(number);
+    // if(this.data.isSearch){
+    //   this.setData({
+    //     targetID: this.data.search_message[number],
     //     showModalStatus: true
-    //     })
-    //   }
+    // })
     // }
+    // else{
+    // this.setData({
+    //   targetID: this.data.user_message[number],
+    //   showModalStatus: true
+    // })
+    // }
+    // 手机
+    if(this.data.isSearch){
+      for(var i=0;i<this.data.search_message.length;i++){
+        if(this.data.user_message[i]._id == e.detail.markerId){
+          this.setData({
+          targetID: this.data.user_message[i],
+          showModalStatus: true
+          })
+        }
+      }
+    }
+    else{
+    for(var i=0;i<this.data.user_message.length;i++){
+      if(this.data.user_message[i]._id == e.detail.markerId){
+        var distance =this.distance(this.data.user_message[i].coordinate[1],this.data.user_message[i].ccoordinate[1],app.coordinate.latitude,app.coordinate.longitude)
+        this.setData({
+        targetID: this.data.user_message[i],
+        showModalStatus: true,
+        distance: distance
+        })
+      }
+    }
+    }
   },
 
   hideModal: function() {
@@ -261,12 +362,23 @@ if (getApp().globalData.isupdate_1 == 1) {
     
   },
 
-  getDetail: function(e){
-    console.log(e.currentTarget.id),
+  getDetail: function(){
     wx.navigateTo({
-      url: '/pages/publishdetail/publishdetail?messageId=' + e.currentTarget.id,
+      url: '/pages/publishdetail/publishdetail?messageId=' + this.data.targetID._id,
     })
   },
+
+  distance: function(la1, lo1, la2, lo2) {
+    var La1 = la1 * Math.PI / 180.0;
+    var La2 = la2 * Math.PI / 180.0;
+    var La3 = La1 - La2;
+    var Lb3 = lo1 * Math.PI / 180.0 - lo2 * Math.PI / 180.0;
+    var s = 2 * Math.asin(Math.sqrt(Math.pow(Math.sin(La3 / 2), 2) + Math.cos(La1) * Math.cos(La2) * Math.pow(Math.sin(Lb3 / 2), 2)));
+    s = s * 6378.137;//地球半径
+    s = Math.round(s * 10000) / 10000;
+    console.log("计算结果",s);
+    return s;
+    },
  
 })
 
