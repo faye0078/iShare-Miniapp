@@ -90,6 +90,7 @@ Page({
   onShow: function () {
     this.setData({
       showModalStatus: false,
+      isSearch: false,
     })
 // 事件触发，调用接口
 if (getApp().globalData.isupdate_1 == 1) {
@@ -307,7 +308,11 @@ if (getApp().globalData.isupdate_1 == 1) {
     else{
     for(var i=0;i<this.data.user_message.length;i++){
       if(this.data.user_message[i]._id == e.detail.markerId){
-        var distance =this.distance(this.data.user_message[i].coordinate[1],this.data.user_message[i].ccoordinate[1],app.coordinate.latitude,app.coordinate.longitude)
+        var a = this.data.user_message[i].coordinate.coordinates[1];
+        var b = this.data.user_message[i].coordinate.coordinates[0]
+        console.log(a);
+        var distance =this.distance(a,b,app.globalData.coordinate.latitude,app.globalData.coordinate.longitude)
+        console.log(distance);
         this.setData({
         targetID: this.data.user_message[i],
         showModalStatus: true,

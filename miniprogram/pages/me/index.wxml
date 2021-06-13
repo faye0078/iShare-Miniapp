@@ -39,9 +39,4 @@
       <text>关于</text>
     </navigator>
 </view>
-
-
- <text class="request-text">{{openid}}</text>
-
-
 </view>

@@ -16,9 +16,6 @@
               <button bindtap="delete_message" style="font-size:28rpx;color:red;display:{{isOwner?'block':'none'}}">删除事件</button>
             </view>
           </view>
-          <view class="user_flag">
-            <view>距离你100m </view>
-          </view>
         </view>
       </view>
     </view>
@@ -69,6 +66,9 @@
 <view class="end" style="text-align:center;color:#999;font-size:25rpx;margin:10rpx;margin-top:20rpx;height:150rpx;">
   ————————— End —————————
 </view>
+
+
+
 <view class="managedetail"wx:if="{{targetMessage.condition}}">
   <view class="managetext">
             解决方案：{{targetMessage.manageData[0].text_intro}}
@@ -79,7 +79,8 @@
     ></video>
 
 </view>
-<view class="bottom">
+
+<view class="bottom" wx:if="{{!targetMessage.condition}}">
   <view class="bottom_main">
     <view class='tit_seabox'>
       <view class="tit_seabox_bar" style="width:60%;">
