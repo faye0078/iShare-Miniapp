@@ -13,6 +13,7 @@ Page({
     isOwner: false,
     openid: '',
     input_comment: '',
+    manageDetail: ''
   },
   
   delete_comment(e) {

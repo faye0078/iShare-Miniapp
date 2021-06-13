@@ -1,11 +1,6 @@
 <nav-bar navbar-data='{{nvabarData}}'></nav-bar>
 
-<view class="bottom_item">
-  <view class="message_user">
-    <view class="top_title">题目：</view>
-    <input class="tile" type="text" bindinput='input_level' placeholder="请输您的题目" maxlength="10"></input>
-  </view>
-</view>
+
 
 <view class="content_title">内容描述：</view>
 <view class="intro">
