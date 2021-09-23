@@ -13,21 +13,6 @@ button {
   background-color: rgba(0, 0, 0, 0);
 }
 
-@font-face {
-  font-family: "iconfont";
-  src: url('iconfont.eot?t=1565584925385'); /* IE9 */
-  src: url('iconfont.eot?t=1565584925385#iefix') format('embedded-opentype'),
-         /* IE6-IE8 */ url('data:application/x-font-woff2;charset=utf-8;base64,d09GMgABAAAAAATAAAsAAAAACVwAAARyAAEAAAAAAAAAAAAAAAAAAAAAAAAAAAAAHEIGVgCDMgqFcIR4ATYCJAMUCwwABCAFhG0HUxsPCFFUTjpkX2FThnsRQQSJClFIFTMGzoxQ6CWxIb0bWDRGwH0ARFCtkT0L9wgKUZHm8q9YAqt/o6JAyAhNNhUj46JYR9+ftvYP9VKDmVQniC97SW5vdXLZxaXooaMWLamggv+9NKm0dX95PFAWACQaaFzXecLbgHb39vP1TKV0tYF1+SIW0hIYISbZCWI7TA7VRVL4P8dMl89nw/yrdMlIjQYcJdDsrNujRe9AjuSE6Iaxi8u4n0C3Kfl8jjr7HRCs0A4LxLNEBQiO2ZQSXOg0NjnnFvFOgM70Jt3jrfvz8c9mBJPUTDv2+LbDBc0/E36W5dV21ZiNIO/PA+YiMjaAQrzk+p75+bkNfrqljL89IGc6JamvrbJ+Fv0sa1ugakWGbv0fHlmRBNHQdL0Iu5cv/Eww2WR+Zsny9EXQIkF9GVSci67a53RjCPgBYodmWHD3TDpV6UzCKI9PhI/EHQinEDEYH+N18IMGOnr5UaOdtdwAob2b4z3cPsbzdbQF+rSHbYOdXJ+BDr6fKU3+fTm5kRdIQB2sCrIzavl+EdcnGX24x7s2NZR99h7oIJEmOhJdPPT0oyZM3t8s2qrdKd72npgpnq2dLpryI4+T28GDoHbSHeBo44JgF/kWHuzsjK4hHUIDMNxBvn5OABgxzA7Q+1wYHoSgoWModRTuOgJThoCBmqmi6drZ4pmUwMjcrIiApK/Vxp5iu+jyZDZuT2QogBFh4DIiPnsuswpvXyQSOy7+/7sk99cXXC4y/b6zWktNsWsOpfGyf+/d0t/1a7kNI3bKFGMvryJ26PF5pHTSj+1nedTPj+grHngmCoWFNKC9Ob2+RBcypTvSzCdjoJQdUz043TtdOl0pMwGrYlN9U31eZ6iu2MHY60Hdzx1f1YfTL2O44MWvti5c3viCe61FAu4zeOS0TLRHRGO8Z0zNRM24ze+Nv7yOzpXO1XLtqhtySpCWugtq3Ch+UpBdYlju5tDk6SUUmHRNRV5ehJAndOf5Ejk8EZOQkpAKY4/Wh5fV6D8/Ay9nx2bLzswCtOVvec1FTpgBHJA+gtb8I0/8Sr/jS5v1c3Kg/n9wTwHfZwYSYbS1QHvZ/6BXW/7jyGuOFVmp2WsRO02ZWKiuBN9kqTTXjd8lNOx1P4ExEHpCJyuHkHSYhKzTArJgN6DqsQ2NTrvQbV3XxT1GMH6idGHNFoAw6BiSfl8hG/SALNhXUI37Co3B8INuJxF3zR5LIYW2MSxw7ELTc0gSdY0YTh7qNdswNRWBRZUuYQAzr5REJYXFyWIX1jDr4wSvRUs5J4gwXUWd4GFYUXRkMN2DRV7o5tyoLSoieS9UKOoqhDrEYAIOc0GmzUEkIp2G2LO50NT322CUSSFgJV0l0QEY4yVtjpQoVFwD2aXTanWdy85eFqoUxxF8EMHoVEgn9GCKntMhRv5eHpiIK+RukTHUKkLTSF1d4fgG9RqvQTft2jVS5ChRo9H56tZNUdBokCFZFYqpBSrSWaW1sHm3aXuIMJtjBQAAAA==') format('woff2'),
-         url('iconfont.woff?t=1565584925385') format('woff'),
-         url('iconfont.ttf?t=1565584925385') format('truetype'),
-         /* chrome,
-         firefox,
-         opera,
-         Safari,
-         Android,
-         iOS 4.2+ */ url('iconfont.svg?t=1565584925385#iconfont') format('svg'); /* iOS 4.1- */
-}
-
 .iconfont {
   font-family: "iconfont" !important;
   font-size: 16px;
@@ -81,7 +66,7 @@ button {
 
 .user_name {
   font-weight: 800;
-  color: cadetblue;
+  color: rgb(141, 141, 141);
   display: flex;
   flex-direction: row;
   justify-content: space-between;

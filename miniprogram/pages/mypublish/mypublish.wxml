@@ -16,6 +16,11 @@
             <view class="flag_sex">{{item.gender==1?"男":"女"}}</view>
           </view>
         </view>
+        <view class="postType">
+          <view class="condition">
+          <text>{{item.condition?'已处理':'未处理'}}</text>
+          </view>
+        </view>
       </view>
     </view>
     <view class="main_middle">

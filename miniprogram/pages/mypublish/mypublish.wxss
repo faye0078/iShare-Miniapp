@@ -1,20 +1,5 @@
 /* miniprogram/pages/mypublish/mypublish.wxss */
-@font-face {
-  font-family: "iconfont";
-  src: url('iconfont.eot?t=1565584720185');
-  /* IE9 */
-  src: url('iconfont.eot?t=1565584720185#iefix') format('embedded-opentype'),
-         /* IE6-IE8 */ url('data:application/x-font-woff2;charset=utf-8;base64,d09GMgABAAAAAAQEAAsAAAAACIwAAAO4AAEAAAAAAAAAAAAAAAAAAAAAAAAAAAAAHEIGVgCDHAqESIN2ATYCJAMQCwoABCAFhG0HSBtoBxHVmzHJfh7YMZ0pKCnP/tFIj3T7HDzgt+nLJdAcUNNVZ6rITJXOxYCJ6TcJEBAfAItzTh2NiVAjeYsefSEpjrLs9D/HTJfPZ8P8q3SJaopIiwQctw4sLhMrRe9AzuSMbjmceRUeXTdDADZS5Seq16zvRKMgewlA9O7RrQM6ZUPV4ATaaC05USHmYkEbM4ybwBz/58VXiqbBwCIhBzbuWqMzlT8kfygkxwfH09pFIB/PA4ingQTyAwWie6mvIzJM5iex6esVJYFGY8BYS7k+FAoGsWIvOk39YPT+5wkrROcAbPGUhA/JNhsGfMglK9MXAsUN6JR7ggbCgb3wE2JI9ps0Foy4eBP+SmPDHQ5TqVFhB+8mG6vulbC7FmXGe0KPPEiTq++3WXoyu8Mb43Qvttk2nxZywplc4ZtOJfb2nhx/KvPMhNPOzdsn7MjcNn6rJ/c4oxbH+f3VbZcfOhfG+ny17JcCniVLOnttF/3uQKCG/YjP9fBhS2Z2+oLPCAQ8fn/zy/6sGwK1Lvky1j50e7eO35a5Y8L2Pi07jhreoUWvEsXSN75+Hnom9MWrlpO2eKI9jifbqxfpr3gel9fR7W5+m3vEipEr3Gbnu8NSzqQMu7vxbjfHNG/W59WfVb9Z/VbGMLpk7ZrVndX1YmjWW1J30sUo9zQj67qrH1tb9cFXfRYcuHlm4QH/Qge19UPr9VeLJZ0zpXLe6uLd7N3k8jtDDj10Ljmy5GhujqO1Rfv2wlHXAk1tAd+uvaglhtzahefWq5+YYNPNHV+/vjYfuefHsKjkyOSM5Ky07jn0rW9DRYLFtrYa3np4sf30ByDok+dkOoC/i3EAgovkL5n8+3+HPpcjTrcLL/9f2xUAj4eFNYZgcJGin+wfylvLf7a85YAylMSulKayZWapohMa3qAFG3XCL85ClBdjBGIRewRakgMYhJACEk12pMLmBwt2ioMVTSWwkU+t0+1EG4hEKBPIawoCQYQ9YBDGGZBEuIVU2OdgIc53sBKRBBtuEX1BOzn1wu7IqAQt6B8EM/TEnLILKm/olqw4qfQJL+Q5RKAp62zmij3yGIfMb9eKEBAPHVzQ7TDnAUYeIhopvch4qCoqe6HSDF2x48ioBC3QPxDM0JM7Xna577+hW7Limpa66At5DquDRqlugbzq+lYt13KX+e1aIgSIhw5ckAczTQ5gLN8W0UjJ94iPBxUeRW115fyG7glPADbI5ZQwhBRKWFj3D73LS7/K4YJi/f7vF9dD6ltiLQo=') format('woff2'),
-         url('iconfont.woff?t=1565584720185') format('woff'),
-         url('iconfont.ttf?t=1565584720185') format('truetype'),
-         /* chrome,
-         firefox,
-         opera,
-         Safari,
-         Android,
-         iOS 4.2+ */ url('iconfont.svg?t=1565584720185#iconfont') format('svg');
-  /* iOS 4.1- */
-}
+
 
 .main {
   margin-top: 10rpx;
@@ -47,7 +32,7 @@
 
 .user_name {
   font-weight: 800;
-  color: cadetblue;
+  color: rgb(143, 143, 143);
 }
 
 .user_flag {
@@ -94,4 +79,12 @@
   display: flex;
   flex-direction: row;
   justify-content: space-between;
+}
+
+.postType{
+  margin-left: 300rpx;
+}
+
+.condition{
+  margin-top: 20rpx;
 }

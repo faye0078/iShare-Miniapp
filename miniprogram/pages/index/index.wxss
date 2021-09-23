@@ -183,6 +183,6 @@ margin-left: 70rpx;
 .sendButton{
   width: 80% !important;
   height: 30px;
-  background: rgb(54, 175, 38);
+  background: rgb(139, 139, 139);
   font-size: 21rpx;
 }
