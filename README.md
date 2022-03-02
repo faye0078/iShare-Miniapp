@@ -10,4 +10,5 @@
 * 由于使用了腾讯位置服务，需要申请和配置位置服务
 
 效果：
-<img src='https://i.ibb.co/f0CpN6k/Screenshot-20220302-183402-We-Chat.jpg'  width="200px"/>
+
+<img src='https://i.ibb.co/f0CpN6k/Screenshot-20220302-183402-We-Chat.jpg'  width="300px"/>
